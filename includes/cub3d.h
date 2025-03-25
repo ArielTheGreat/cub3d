@@ -18,13 +18,38 @@
 
 typedef struct s_game
 {
-	char **map;
     mlx_t *mlx;
-    int map_height;
-    int player_position_x;
-    int player_position_y;
     mlx_image_t *static_layer;
 	mlx_image_t *dynamic_layer;
 } t_game;
+
+typedef struct s_map
+{
+	char **grid;
+    int map_height;
+} t_map;
+
+
+typedef struct s_player
+{
+    float x;
+    float y;
+    int turnDirection;
+    int walkDirection;
+    float rotationAngle;
+    float walkSpeed;
+    float turnSpeed;
+    t_game *game;
+} t_player;
+
+typedef struct s_str_access
+{
+	t_player *player;
+    t_map    *map;
+    t_game   *game;
+} t_str_access;
+
+void initiate_map(t_map *map);
+void initiate_player(t_player *player, t_game *game);
 
 #endif

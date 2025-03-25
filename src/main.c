@@ -25,28 +25,34 @@ void draw_walls(t_game *game, int base_x_mult, int base_y_mult)
     }
 }
 
-void process_map_row(t_game *game, int i, int *base_x_mult, int *base_y_mult)
+void process_map_row(t_str_access *str_access, int i, int *base_x_mult, int *base_y_mult)
 {
     int x;
-    
+    t_player *player;
+    t_map *map;
+    t_game *game;
+
+    player = str_access->player;
+    map = str_access->map;
+    game = str_access->game;
     x = 0;
-    while (game->map[i][x])
+    while (map->grid[i][x])
     {
-        if (game->map[i][x] == '1')
+        if (map->grid[i][x] == '1')
         {
             draw_walls(game, *base_x_mult, *base_y_mult);
-        }else if (game->map[i][x] == 'N' || game->map[i][x] == 'S' || game->map[i][x] == 'E'
-            || game->map[i][x] == 'W')
+        }else if (map->grid[i][x] == 'N' || map->grid[i][x] == 'S' || map->grid[i][x] == 'E'
+            || map->grid[i][x] == 'W')
         {
-            game->player_position_x = *base_x_mult;
-            game->player_position_y = *base_y_mult;
+            player->x = *base_x_mult;
+            player->y = *base_y_mult;
         }
         *base_x_mult += CUBE_SIZE;
         x++;
     }
 }
 
-void add_static_pixels(t_game *game)
+void add_static_pixels(t_str_access *str_access)
 {
     int add_y;
     int base_x_mult;
@@ -57,26 +63,26 @@ void add_static_pixels(t_game *game)
     base_x_mult = CUBE_SIZE;
     base_y_mult = CUBE_SIZE;
     i = 0;
-    while (i <= game->map_height)
+    while (i <= str_access->map->map_height)
     {
-        process_map_row(game, i, &base_x_mult, &base_y_mult);
+        process_map_row(str_access, i, &base_x_mult, &base_y_mult);
         add_y++;
         base_x_mult = CUBE_SIZE;
         base_y_mult = CUBE_SIZE * add_y;
         i++;
     }
-    mlx_image_to_window(game->mlx, game->static_layer, 0, 0);
+    mlx_image_to_window(str_access->game->mlx, str_access->game->static_layer, 0, 0);
 }
 
 void	keys_hook(mlx_key_data_t keydata, void *param)
 {
-	t_game	*game;
+	t_player *player;
 	int		new_x;
 	int		new_y;
 
-	game = (t_game *)param;
-	new_x = game->player_position_x;
-	new_y = game->player_position_y;
+	player = (t_player *)param;
+	new_x = player->x;
+	new_y = player->y;
 	// Calculate new position based on key input
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS
 			|| keydata.action == MLX_REPEAT))
@@ -91,32 +97,35 @@ void	keys_hook(mlx_key_data_t keydata, void *param)
 			|| keydata.action == MLX_REPEAT))
 		new_x += 5; // Move right
 	else if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		mlx_close_window(game->mlx);
+		mlx_close_window(player->game->mlx);
 	// Check for collision before updating position
-    game->player_position_x = new_x;
-	game->player_position_y = new_y;
+    player->x = new_x;
+	player->y = new_y;
 }
 
 
 void render(void *param)
 {
-    t_game *game = (t_game *)param;
-
+    t_str_access *str_access = (t_str_access *)param;
+    t_game *game;
+    t_player *player;
 	int		radius;
 	int		center_x;
 	int		center_y;
 	int		x;
 	int		y;
 
-	game = (t_game *)param;
+	str_access = (t_str_access *)param;
+    game = str_access->game;
+    player = str_access->player;
 	// Clear the image with a color (e.g., black)
 	memset(game->dynamic_layer->pixels, 0, game->dynamic_layer->width
 		* game->dynamic_layer->height * sizeof(int32_t));
 	// Define the radius of the circle
 	radius = MOVING_OBJECT_SIZE / 2;
 	// Calculate the center of the circle
-	center_x = game->player_position_x + radius;
-	center_y = game->player_position_y + radius;
+	center_x = player->x + radius;
+	center_y = player->y + radius;
 	// Midpoint circle algorithm (filled circle)
 	x = radius;
 	y = 0;
@@ -156,22 +165,16 @@ void render(void *param)
 
 int main()
 {
+    t_str_access stru_access;
     t_game game;
     
-    game.map = malloc(sizeof(char *) * 10);
-    game.map[0] = ft_strdup("111111111111111");
-    game.map[1] = ft_strdup("100000000000001");
-    game.map[2] = ft_strdup("1000000N0000001");
-    game.map[3] = ft_strdup("100000000000001");
-    game.map[4] = ft_strdup("100000000000001");
-    game.map[5] = ft_strdup("111111111111111");
-    game.map[6] = NULL;
-    
-    game.map_height = 5;
+    game = *(stru_access.game);
+    initiate_map(stru_access.map);
+    initiate_player(stru_access.player, &game);
     init_mlx(&game);
-    add_static_pixels(&game);
-    mlx_loop_hook(game.mlx, render, &game);
-    mlx_key_hook(game.mlx, keys_hook, &game);
+    add_static_pixels(&stru_access);
+    mlx_loop_hook(game.mlx, render, &stru_access);
+    mlx_key_hook(game.mlx, keys_hook, stru_access.player);
     mlx_loop(game.mlx);
     mlx_terminate(game.mlx);
     return (0);
