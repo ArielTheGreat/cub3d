@@ -146,7 +146,6 @@ void render(void *param)
 				0xFF0000FF);
 		}
 		y++;
-		// Update the decision parameter
 		if (p <= 0)
 		{
 			p = p + 2 * y + 1;
@@ -162,6 +161,7 @@ void render(void *param)
 		player->x + cos(player->rotationAngle) * 40,
 		player->y + sin(player->rotationAngle) * 40
 	);
+	usleep(10000);
 }
 
 int main()

@@ -17,7 +17,6 @@ void draw_line(t_player *player, t_game *game, float dest_x, float dest_y) {
         
         if (origin_x == dest_x && origin_y == dest_y)
         {
-            printf("BGGGG\n");
             break;
         }
         e2 = 2 * err;
