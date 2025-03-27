@@ -6,7 +6,8 @@ CFLAGS = -Wall -Wextra -Werror
 SRC_DIR = src
 SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/draw_line.c \
-	  $(SRC_DIR)/initiate_struct_values.c
+	  $(SRC_DIR)/initiate_struct_values.c \
+	  $(SRC_DIR)/player_functions.c
 
 OBJ_DIR = obj
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))

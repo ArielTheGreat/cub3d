@@ -13,7 +13,7 @@
 # define SCREEN_WIDTH		2580
 # define SCREEN_HEIGHT		1960
 # define CUBE_SIZE  32
-# define MOVING_OBJECT_SIZE 5
+# define MOVING_OBJECT_SIZE 3
 # define PI 3.14159265358979323846
 
 typedef struct s_game
@@ -52,5 +52,7 @@ typedef struct s_str_access
 void initiate_map(t_map *map);
 void initiate_player(t_player *player, t_game *game);
 void initiate_str_access_values(t_str_access *str_access);
+void draw_line(t_player *player, t_game *game, float dest_x, float dest_y);
+void movePlayer(t_player *player);
 
 #endif

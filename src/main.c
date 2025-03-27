@@ -77,30 +77,27 @@ void add_static_pixels(t_str_access *str_access)
 void	keys_hook(mlx_key_data_t keydata, void *param)
 {
 	t_player *player;
-	float		new_x;
-	float		new_y;
 
 	player = (t_player *)param;
-	new_x = player->x;
-	new_y = player->y;
-	// Calculate new position based on key input
-	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS
-			|| keydata.action == MLX_REPEAT))
-		new_y -= 5; // Move up
-	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS
-			|| keydata.action == MLX_REPEAT))
-		new_y += 5; // Move down
-	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS
-			|| keydata.action == MLX_REPEAT))
-		new_x -= 5; // Move left
-	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS
-			|| keydata.action == MLX_REPEAT))
-		new_x += 5; // Move right
+	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS))
+			player->walkDirection = +1;
+	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS))
+			player->walkDirection = -1;
+	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS))
+			player->turnDirection = +1;
+	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS))
+			player->turnDirection = -1;
 	else if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		mlx_close_window(player->game->mlx);
-	// Check for collision before updating position
-    player->x = new_x;
-	player->y = new_y;
+
+		if (keydata.key == MLX_KEY_W && (keydata.action == MLX_RELEASE))
+			player->walkDirection = 0;
+		else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_RELEASE))
+			player->walkDirection = 0;
+		else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_RELEASE))
+			player->turnDirection = 0;
+		else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
+			player->turnDirection = 0;
 }
 
 
@@ -121,6 +118,7 @@ void render(void *param)
 	// Clear the image with a color (e.g., black)
 	memset(game->dynamic_layer->pixels, 0, game->dynamic_layer->width
 		* game->dynamic_layer->height * sizeof(int32_t));
+	movePlayer(player);
 	// Define the radius of the circle
 	radius = MOVING_OBJECT_SIZE / 2;
 	// Calculate the center of the circle
@@ -159,8 +157,11 @@ void render(void *param)
 			p = p + 2 * y - 2 * x + 1;
 		}
 	}
-	// Render the image to the window
-	mlx_image_to_window(game->mlx, game->dynamic_layer, 0, 0);
+	draw_line(player,
+		game,
+		player->x + cos(player->rotationAngle) * 40,
+		player->y + sin(player->rotationAngle) * 40
+	);
 }
 
 int main()
@@ -177,6 +178,7 @@ int main()
     initiate_player(stru_access.player, game);
     init_mlx(game);
     add_static_pixels(&stru_access);
+	mlx_image_to_window(game->mlx, game->dynamic_layer, 0, 0);
     mlx_loop_hook(game->mlx, render, &stru_access);
     mlx_key_hook(game->mlx, keys_hook, stru_access.player);
     mlx_loop(game->mlx);
