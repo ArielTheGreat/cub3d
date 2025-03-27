@@ -77,8 +77,8 @@ void add_static_pixels(t_str_access *str_access)
 void	keys_hook(mlx_key_data_t keydata, void *param)
 {
 	t_player *player;
-	int		new_x;
-	int		new_y;
+	float		new_x;
+	float		new_y;
 
 	player = (t_player *)param;
 	new_x = player->x;
@@ -110,8 +110,8 @@ void render(void *param)
     t_game *game;
     t_player *player;
 	int		radius;
-	int		center_x;
-	int		center_y;
+	float		center_x;
+	float		center_y;
 	int		x;
 	int		y;
 
@@ -166,16 +166,20 @@ void render(void *param)
 int main()
 {
     t_str_access stru_access;
-    t_game game;
+    t_game *game;
     
-    game = *(stru_access.game);
+	stru_access.map = NULL;
+	stru_access.game = NULL;
+	stru_access.player = NULL;
+	initiate_str_access_values(&stru_access);
+    game = stru_access.game;
     initiate_map(stru_access.map);
-    initiate_player(stru_access.player, &game);
-    init_mlx(&game);
+    initiate_player(stru_access.player, game);
+    init_mlx(game);
     add_static_pixels(&stru_access);
-    mlx_loop_hook(game.mlx, render, &stru_access);
-    mlx_key_hook(game.mlx, keys_hook, stru_access.player);
-    mlx_loop(game.mlx);
-    mlx_terminate(game.mlx);
+    mlx_loop_hook(game->mlx, render, &stru_access);
+    mlx_key_hook(game->mlx, keys_hook, stru_access.player);
+    mlx_loop(game->mlx);
+    mlx_terminate(game->mlx);
     return (0);
 }

@@ -2,7 +2,7 @@
 
 void initiate_map(t_map *map)
 {
-    map->grid = malloc(sizeof(char *) * 10);
+    map->grid = malloc(sizeof(char *) * 7);
     map->grid[0] = ft_strdup("111111111111111");
     map->grid[1] = ft_strdup("100000000000001");
     map->grid[2] = ft_strdup("1000000N0000001");
@@ -24,4 +24,11 @@ void initiate_player(t_player *player, t_game *game)
     player->walkSpeed = 2;
     player->turnSpeed = 2 * (PI / 180);
     player->game = game;
+}
+
+void initiate_str_access_values(t_str_access *str_access)
+{
+    str_access->game = malloc(sizeof(t_game));
+    str_access->map = malloc(sizeof(t_map));
+    str_access->player = malloc(sizeof(t_player));
 }

@@ -51,5 +51,6 @@ typedef struct s_str_access
 
 void initiate_map(t_map *map);
 void initiate_player(t_player *player, t_game *game);
+void initiate_str_access_values(t_str_access *str_access);
 
 #endif
