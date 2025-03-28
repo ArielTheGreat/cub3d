@@ -15,6 +15,7 @@
 # define CUBE_SIZE  32
 # define MOVING_OBJECT_SIZE 1
 # define FOV        60
+#define HALF_FOV_RADIANS (FOV / 2) * (PI / 180)
 # define PI 3.14159265358979323846
 
 typedef struct s_game
