@@ -74,14 +74,18 @@ int check_obstacle_blocks(float newPlayerX, float newPlayerY, t_player *player)
     int row_block = (newPlayerY / CUBE_SIZE) - 1;
 
     map = player->map;
-    printf("X: %f\n", newPlayerX);
-    printf("Y: %f\n", newPlayerY);
-    printf("X: %d Y: %d\n", column_block, row_block);
-    printf("%c\n", map->grid[row_block][column_block]);
-    printf("*****************");
     if (map->grid[row_block][column_block] == '1')
     {
         return (1);
     }
     return (0);
+}
+
+int is_wall(int y_to_check,int x_to_check, t_player *player)
+{
+    if (player->map->grid[y_to_check][x_to_check] == '1')
+    {   
+        return (1);
+    }
+    return 0;
 }
