@@ -14,6 +14,7 @@
 # define SCREEN_HEIGHT		1960
 # define CUBE_SIZE  32
 # define MOVING_OBJECT_SIZE 1
+# define FOV        60
 # define PI 3.14159265358979323846
 
 typedef struct s_game
@@ -63,6 +64,9 @@ void draw_circle(t_player *player, t_game *game);
 void add_static_pixels(t_str_access *str_access);
 void process_map_row(t_str_access *str_access, int i, int *base_x_mult, int *base_y_mult);
 void draw_walls(t_game *game, int base_x_mult, int base_y_mult);
-int check_obstacle_blocks(float newPlayerX, float newPlayerY, t_player *player); 
+int check_obstacle_blocks(float newPlayerX, float newPlayerY, t_player *player);
+
+/* draw_rays.c */
+void draw_rays(t_game *game, t_player *player);
 
 #endif

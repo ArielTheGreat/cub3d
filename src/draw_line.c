@@ -14,10 +14,9 @@ void draw_line(t_player *player, t_game *game, float dest_x, float dest_y) {
     int e2;
 
     while (1) {
-        // Only draw if pixel is within bounds
         if (origin_x >= 0 && origin_x < (int)game->dynamic_layer->width &&
             origin_y >= 0 && origin_y < (int)game->dynamic_layer->height) {
-            mlx_put_pixel(game->dynamic_layer, origin_x, origin_y, 0xFFFFFFFF);
+            mlx_put_pixel(game->dynamic_layer, origin_x, origin_y, 0xFF0000FF);
         }
 
         if (origin_x == dest_x_int && origin_y == dest_y_int) {
