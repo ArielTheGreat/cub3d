@@ -13,7 +13,7 @@
 # define SCREEN_WIDTH		2580
 # define SCREEN_HEIGHT		1960
 # define CUBE_SIZE  32
-# define MOVING_OBJECT_SIZE 3
+# define MOVING_OBJECT_SIZE 4
 # define PI 3.14159265358979323846
 
 typedef struct s_game

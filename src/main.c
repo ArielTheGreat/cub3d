@@ -84,9 +84,9 @@ void	keys_hook(mlx_key_data_t keydata, void *param)
 	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS))
 			player->walkDirection = -1;
 	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS))
-			player->turnDirection = +1;
-	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS))
 			player->turnDirection = -1;
+	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS))
+			player->turnDirection = +1;
 	else if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		mlx_close_window(player->game->mlx);
 
@@ -100,41 +100,26 @@ void	keys_hook(mlx_key_data_t keydata, void *param)
 			player->turnDirection = 0;
 }
 
-
-void render(void *param)
+void draw_circle(t_player *player, t_game *game)
 {
-    t_str_access *str_access = (t_str_access *)param;
-    t_game *game;
-    t_player *player;
 	int		radius;
 	float		center_x;
 	float		center_y;
 	int		x;
 	int		y;
 
-	str_access = (t_str_access *)param;
-    game = str_access->game;
-    player = str_access->player;
-	// Clear the image with a color (e.g., black)
-	memset(game->dynamic_layer->pixels, 0, game->dynamic_layer->width
-		* game->dynamic_layer->height * sizeof(int32_t));
-	movePlayer(player);
-	// Define the radius of the circle
 	radius = MOVING_OBJECT_SIZE / 2;
-	// Calculate the center of the circle
 	center_x = player->x + radius;
 	center_y = player->y + radius;
-	// Midpoint circle algorithm (filled circle)
 	x = radius;
 	y = 0;
-    int p = 1 - radius; // Decision parameter
+    int p = 1 - radius;
 	while (x >= y)
 	{
-		// Draw horizontal lines to fill the circle
 		for (int i = -x; i <= x; i++)
 		{
 			mlx_put_pixel(game->dynamic_layer, center_x + i, center_y + y,
-				0xFF0000FF); // Red color
+				0xFF0000FF);
 			mlx_put_pixel(game->dynamic_layer, center_x + i, center_y - y,
 				0xFF0000FF);
 		}
@@ -156,12 +141,27 @@ void render(void *param)
 			p = p + 2 * y - 2 * x + 1;
 		}
 	}
+}
+
+void render(void *param)
+{
+    t_str_access *str_access = (t_str_access *)param;
+    t_game *game;
+    t_player *player;
+
+	str_access = (t_str_access *)param;
+    game = str_access->game;
+    player = str_access->player;
+	memset(game->dynamic_layer->pixels, 0, game->dynamic_layer->width
+		* game->dynamic_layer->height * sizeof(int32_t));
+	movePlayer(player);
+	draw_circle(player, game);
 	draw_line(player,
 		game,
 		player->x + cos(player->rotationAngle) * 40,
 		player->y + sin(player->rotationAngle) * 40
 	);
-	usleep(10000);
+	
 }
 
 int main()
