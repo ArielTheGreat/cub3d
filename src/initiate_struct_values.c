@@ -5,9 +5,9 @@ void initiate_map(t_map *map)
     map->grid = malloc(sizeof(char *) * 7);
     map->grid[0] = ft_strdup("111111111111111");
     map->grid[1] = ft_strdup("100000000000001");
-    map->grid[2] = ft_strdup("1000000N0000001");
-    map->grid[3] = ft_strdup("100000000000001");
-    map->grid[4] = ft_strdup("100000000000001");
+    map->grid[2] = ft_strdup("1001000N0000001");
+    map->grid[3] = ft_strdup("100000001100001");
+    map->grid[4] = ft_strdup("100000001100001");
     map->grid[5] = ft_strdup("111111111111111");
     map->grid[6] = NULL;
     
