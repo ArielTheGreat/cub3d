@@ -81,11 +81,17 @@ int check_obstacle_blocks(float newPlayerX, float newPlayerY, t_player *player)
     return (0);
 }
 
-int is_wall(int y_to_check,int x_to_check, t_player *player)
+int is_wall(float x,float y, t_player *player)
 {
-    if (player->map->grid[y_to_check][x_to_check] == '1')
-    {   
-        return (1);
+    if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT) {
+        return 1;
     }
-    return 0;
+    int mapGridIndexX = floor(x / CUBE_SIZE) - 1;
+    int mapGridIndexY = floor(y / CUBE_SIZE) - 1;
+    if (player->map->grid[mapGridIndexY][mapGridIndexX] == '1')
+    {
+        return (1);
+    }else{
+        return (0);
+    }
 }

@@ -46,7 +46,7 @@ void render(void *param)
 		* game->dynamic_layer->height * sizeof(int32_t));
 	movePlayer(player);
 	draw_circle(player, game);
-	draw_rays(game, player);
+	castAllRays(player);
 }
 
 int main()

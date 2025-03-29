@@ -14,8 +14,14 @@
 # define SCREEN_HEIGHT		1960
 # define CUBE_SIZE  32
 # define MOVING_OBJECT_SIZE 1
-# define FOV        60
-# define PI 3.14159265358979323846
+# define FOV_ANGLE (60 * (PI / 180))
+# define PI 3.14159265
+# define TWO_PI 6.28318530
+# define NUM_RAYS 30
+# define MAP_NUM_ROWS 6
+# define MAP_NUM_COLS 15
+# define WINDOW_WIDTH (MAP_NUM_COLS * CUBE_SIZE)
+# define WINDOW_HEIGHT (MAP_NUM_ROWS * CUBE_SIZE)
 
 typedef struct s_game
 {
@@ -44,6 +50,20 @@ typedef struct s_player
     t_map  *map;
 } t_player;
 
+typedef struct Ray
+{
+    float rayAngle;
+    float wallHitX;
+    float wallHitY;
+    float distance;
+    int wasHitVertical;
+    int isRayFacingUp;
+    int isRayFacingDown;
+    int isRayFacingLeft;
+    int isRayFacingRight;
+    int wallHitContent;
+} t_rays[NUM_RAYS];
+
 typedef struct s_str_access
 {
 	t_player *player;
@@ -65,9 +85,9 @@ void add_static_pixels(t_str_access *str_access);
 void process_map_row(t_str_access *str_access, int i, int *base_x_mult, int *base_y_mult);
 void draw_walls(t_game *game, int base_x_mult, int base_y_mult);
 int check_obstacle_blocks(float newPlayerX, float newPlayerY, t_player *player);
-int is_wall(int y_to_check,int x_to_check, t_player *player);
+int is_wall(float x,float y, t_player *player);
 
 /* draw_rays.c */
-void draw_rays(t_game *game, t_player *player);
+void castAllRays(t_player *player);
 
 #endif

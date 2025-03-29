@@ -1,47 +1,80 @@
 #include "../includes/cub3d.h"
 
-void check_contacts_grid(float firstRayAngle, t_player *player)
+float normalizeAngle(float angle)
 {
-    float first_horizontal_contact_y;
-    float first_horizontal_contact_x;
-
-    first_horizontal_contact_y = floor(player->y / CUBE_SIZE) * CUBE_SIZE;
-    first_horizontal_contact_x = player->x + (cos(firstRayAngle) * CUBE_SIZE);
-
-    float y_step = CUBE_SIZE;
-    float x_step = CUBE_SIZE / tan(firstRayAngle);
-
-    int y_to_check = (first_horizontal_contact_y / CUBE_SIZE);
-    int x_to_check = (first_horizontal_contact_x / CUBE_SIZE);
-    while(!is_wall(y_to_check, x_to_check, player))
+    angle = remainder(angle,TWO_PI);
+    if (angle < 0)
     {
-        y_to_check += y_step;
-        x_to_check += x_step;
+        angle = TWO_PI + angle;
     }
-    printf("Y: %d ", y_to_check);
-    printf("X: %d\n", x_to_check);
+    return (angle);
+}
 
-    int distance_ray2wall = sqrt((x_to_check - player->x) * (x_to_check - player->x) + (y_to_check - player->y) * (y_to_check - player->y));
+void castRay(float rayAngle, t_player *player)
+{
+    rayAngle = normalizeAngle(rayAngle);
 
+    int isRayFacingDown = rayAngle > 0 && rayAngle < PI;
+    int isRayFacingUp = !isRayFacingDown;
+    int isRayFacingRight = rayAngle < (PI / 2) || rayAngle > (PI * 1.5);
+    int isRayFacingLeft = !isRayFacingRight;
+
+    float x_intercept;
+    float y_intercept;
+    float y_step;
+    float x_step;
+
+    int foundHorizontalHit = false;
+    float horzWallHitX = 0;
+    float horzWallHitY = 0;
+
+    y_intercept = floor(player->y / CUBE_SIZE) * CUBE_SIZE;
+    y_intercept += isRayFacingDown ? CUBE_SIZE : 0;
+
+    x_intercept = player->x + (y_intercept - player->y) / tan(rayAngle);
+
+    y_step = CUBE_SIZE;
+    y_step *= isRayFacingUp ? -1 : 1;
+
+    x_step = CUBE_SIZE / tan(rayAngle);
+    x_step *= (isRayFacingLeft && x_step > 0) ? -1 : 1;
+    x_step *= (isRayFacingRight && x_step < 0) ? -1 : 1;
+
+    float nextHorzTouchWallX = x_intercept;
+    float nextHorzTouchWallY = y_intercept;
+    while(nextHorzTouchWallX >= 0 && nextHorzTouchWallX <= WINDOW_WIDTH && nextHorzTouchWallY >= 0 && nextHorzTouchWallY <= WINDOW_HEIGHT)
+    {
+        float xToCheck = nextHorzTouchWallX;
+        float yToCheck = nextHorzTouchWallY + (isRayFacingUp ? -1 : 0);
+
+        if (is_wall(xToCheck, yToCheck, player) == 1)
+        {
+            horzWallHitX = nextHorzTouchWallX;
+            horzWallHitY = nextHorzTouchWallY;
+            foundHorizontalHit = true;
+            break;
+        }else
+        {
+            nextHorzTouchWallX += x_step;
+            nextHorzTouchWallY += y_step;
+        }
+    }
+    int distance_ray2wall = sqrt((horzWallHitX - player->x) * (horzWallHitX - player->x) + (horzWallHitY - player->y) * (horzWallHitY - player->y));
     draw_line(player,
         player->game,
-        player->x + cos(firstRayAngle) * distance_ray2wall,
-        player->y + sin(firstRayAngle) * distance_ray2wall
+        player->x + cos(rayAngle) * distance_ray2wall,
+        player->y + sin(rayAngle) * distance_ray2wall
     );
 }
 
-void draw_rays(t_game *game, t_player *player)
+void castAllRays(t_player *player)
 {
-    (void)game;
-    float substract_to_get_first_ray = (FOV / 2) * (PI / 180);
-    float firstRayAngle = player->rotationAngle - substract_to_get_first_ray;
+    float rayAngle = player->rotationAngle - (FOV_ANGLE / 2);
     int counter = 0;
-    int limit = 1;
-    float addAngleNextRay = (FOV / limit) * PI / 180;
-    while(counter < limit)
+    while(counter < NUM_RAYS)
     {
-        check_contacts_grid(firstRayAngle, player);
-        firstRayAngle += addAngleNextRay;
+        castRay(rayAngle, player);
+        rayAngle += FOV_ANGLE / NUM_RAYS;
         counter++;
     }
 }
