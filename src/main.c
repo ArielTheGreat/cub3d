@@ -38,6 +38,7 @@ void render(void *param)
     t_str_access *str_access = (t_str_access *)param;
     t_game *game;
     t_player *player;
+	t_rays rays;
 
 	str_access = (t_str_access *)param;
     game = str_access->game;
@@ -46,7 +47,8 @@ void render(void *param)
 		* game->dynamic_layer->height * sizeof(int32_t));
 	movePlayer(player);
 	draw_circle(player, game);
-	castAllRays(player);
+	castAllRays(player, &rays);
+	renderRays(player, &rays);
 }
 
 int main()

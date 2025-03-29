@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <limits.h>
 #include <math.h>
 
 # define SCREEN_WIDTH		2580
@@ -61,7 +62,6 @@ typedef struct Ray
     int isRayFacingDown;
     int isRayFacingLeft;
     int isRayFacingRight;
-    int wallHitContent;
 } t_rays[NUM_RAYS];
 
 typedef struct s_str_access
@@ -88,6 +88,7 @@ int check_obstacle_blocks(float newPlayerX, float newPlayerY, t_player *player);
 int is_wall(float x,float y, t_player *player);
 
 /* draw_rays.c */
-void castAllRays(t_player *player);
+void castAllRays(t_player *player, t_rays *rays);
+void renderRays(t_player *player, t_rays *rays);
 
 #endif
