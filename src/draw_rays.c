@@ -30,22 +30,12 @@ void castRay(float rayAngle, t_player *player,int counter, t_rays *rays)
     find_distance(&hit_distance_wall, &horzWallHitData, &vertWallHitData, player);
     if (hit_distance_wall.vert < hit_distance_wall.horz)
     {
-        (*rays)[counter].distance = hit_distance_wall.vert;
-        (*rays)[counter].wallHitX = vertWallHitData.vertWallHitX;
-        (*rays)[counter].wallHitY = vertWallHitData.vertWallHitY;
-        (*rays)[counter].wasHitVertical = 1;
+        set_vert_values_ray(rays, &hit_distance_wall, &vertWallHitData, counter);
     }else
     {
-        (*rays)[counter].distance = hit_distance_wall.horz;
-        (*rays)[counter].wallHitX = horzWallHitData.horzWallHitX;
-        (*rays)[counter].wallHitY = horzWallHitData.horzWallHitY;
-        (*rays)[counter].wasHitVertical = 0;
+        set_horz_values_ray(rays, &hit_distance_wall, &horzWallHitData, counter);
     }
-    (*rays)[counter].rayAngle = rayAngle;
-    (*rays)[counter].isRayFacingUp = ray_directin_data.isRayFacingUp;
-    (*rays)[counter].isRayFacingDown = ray_directin_data.isRayFacingDown;
-    (*rays)[counter].isRayFacingLeft = ray_directin_data.isRayFacingLeft;
-    (*rays)[counter].isRayFacingRight = ray_directin_data.isRayFacingRight;
+    set_values_ray(rays, rayAngle, &ray_directin_data, counter);
 }
 
 void castAllRays(t_player *player,t_rays *rays)

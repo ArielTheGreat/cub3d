@@ -118,10 +118,16 @@ int is_wall(float x,float y, t_player *player);
 /* draw_rays.c */
 void castAllRays(t_player *player, t_rays *rays);
 void renderRays(t_player *player, t_rays *rays);
+int distance_ray2wall(float origin_x, float origin_y, float destination_x, float destination_y);
 
 /* ray_wall_hit.c */
 void findHorzRayWallHit(t_horz_wall_hit_data *horzWallHitData, float rayAngle, t_player *player, t_ray_directin_data  *ray_directin_data);
 void findVertRayWallHit(t_vert_wall_hit_data *vertWallHitData, float rayAngle, t_player *player, t_ray_directin_data  *ray_directin_data);
 void inititate_ray_direction_data(t_ray_directin_data *ray_directin_data, float rayAngle);
+void set_values_ray(t_rays *rays, float rayAngle, t_ray_directin_data  *ray_directin_data, int counter);
+void set_vert_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_vert_wall_hit_data *vertWallHitData, int counter);
+void set_horz_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horzWallHitData, int counter);
+void find_distance(t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horzWallHitData, t_vert_wall_hit_data *vertWallHitData, t_player *player);
+void initiate_wall_hit_data_structs_values(t_horz_wall_hit_data *horzWallHitData, t_vert_wall_hit_data *vertWallHitData);
 
 #endif
