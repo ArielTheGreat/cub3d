@@ -93,6 +93,12 @@ typedef struct s_ray_directin_data
     int isRayFacingLeft;
 } t_ray_directin_data;
 
+typedef struct s_hit_distance_wall
+{
+    float horz;
+    float vert;
+} t_hit_distance_wall;
+
 void initiate_map(t_map *map);
 void initiate_player(t_player *player, t_game *game);
 void initiate_str_access_values(t_str_access *str_access);

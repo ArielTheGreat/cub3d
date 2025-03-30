@@ -87,3 +87,20 @@ void inititate_ray_direction_data(t_ray_directin_data *ray_directin_data, float 
     ray_directin_data->isRayFacingRight = rayAngle < (PI / 2) || rayAngle > (PI * 1.5);
     ray_directin_data->isRayFacingLeft = !ray_directin_data->isRayFacingRight;
 }
+
+void find_distance(t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horzWallHitData, t_vert_wall_hit_data *vertWallHitData, t_player *player)
+{
+    if (horzWallHitData->foundHorizontalHit)
+    {
+        hit_distance_wall->horz = distance_ray2wall(player->x, player->y, horzWallHitData->horzWallHitX, horzWallHitData->horzWallHitY);
+    }else{
+        hit_distance_wall->horz = INT_MAX;
+    }
+
+    if (vertWallHitData->foundVertWallHit)
+    {
+        hit_distance_wall->vert = distance_ray2wall(player->x, player->y, vertWallHitData->vertWallHitX, vertWallHitData->vertWallHitY);
+    }else{
+        hit_distance_wall->vert = INT_MAX;
+    }
+}

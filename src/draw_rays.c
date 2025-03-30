@@ -20,24 +20,23 @@ void castRay(float rayAngle, t_player *player,int counter, t_rays *rays)
     t_horz_wall_hit_data horzWallHitData;
     t_vert_wall_hit_data vertWallHitData;
     t_ray_directin_data  ray_directin_data;
-    float hitHorizontalDistance;
-    float hitVerticalDistance;
+    t_hit_distance_wall  hit_distance_wall;
 
     rayAngle = normalizeAngle(rayAngle);
+    initiate_wall_hit_data_structs_values(&horzWallHitData, &vertWallHitData);
     inititate_ray_direction_data(&ray_directin_data, rayAngle);
     findHorzRayWallHit(&horzWallHitData, rayAngle, player, &ray_directin_data);
     findVertRayWallHit(&vertWallHitData, rayAngle, player, &ray_directin_data);
-    hitHorizontalDistance = horzWallHitData.foundHorizontalHit ? distance_ray2wall(player->x, player->y, horzWallHitData.horzWallHitX, horzWallHitData.horzWallHitY) : INT_MAX;
-    hitVerticalDistance = vertWallHitData.foundVertWallHit ? distance_ray2wall(player->x, player->y, vertWallHitData.vertWallHitX, vertWallHitData.vertWallHitY) : INT_MAX;
-    if (hitVerticalDistance < hitHorizontalDistance)
+    find_distance(&hit_distance_wall, &horzWallHitData, &vertWallHitData, player);
+    if (hit_distance_wall.vert < hit_distance_wall.horz)
     {
-        (*rays)[counter].distance = hitVerticalDistance;
+        (*rays)[counter].distance = hit_distance_wall.vert;
         (*rays)[counter].wallHitX = vertWallHitData.vertWallHitX;
         (*rays)[counter].wallHitY = vertWallHitData.vertWallHitY;
         (*rays)[counter].wasHitVertical = 1;
     }else
     {
-        (*rays)[counter].distance = hitHorizontalDistance;
+        (*rays)[counter].distance = hit_distance_wall.horz;
         (*rays)[counter].wallHitX = horzWallHitData.horzWallHitX;
         (*rays)[counter].wallHitY = horzWallHitData.horzWallHitY;
         (*rays)[counter].wasHitVertical = 0;
