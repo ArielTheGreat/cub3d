@@ -13,7 +13,7 @@
 
 # define SCREEN_WIDTH		2580
 # define SCREEN_HEIGHT		1960
-# define CUBE_SIZE  32
+# define CUBE_SIZE  16
 # define MOVING_OBJECT_SIZE 1
 # define FOV_ANGLE (60 * (PI / 180))
 # define PI 3.14159265
