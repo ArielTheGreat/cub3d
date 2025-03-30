@@ -50,14 +50,14 @@ void findVertRayWallHit(t_vert_wall_hit_data *vertWallHitData, float rayAngle, t
     x_intercept = floor(player->x / CUBE_SIZE) * CUBE_SIZE;
     x_intercept += ray_directin_data->isRayFacingRight ? CUBE_SIZE : 0;
 
-    y_intercept = player->y + (x_intercept - player->x) / tan(rayAngle);
+    y_intercept = player->y + (x_intercept - player->x) * tan(rayAngle);
 
     x_step = CUBE_SIZE;
     x_step *= ray_directin_data->isRayFacingLeft ? -1 : 1;
 
-    y_step = CUBE_SIZE / tan(rayAngle);
-    y_step *= (ray_directin_data->isRayFacingUp && x_step > 0) ? -1 : 1;
-    y_step *= (ray_directin_data->isRayFacingDown && x_step < 0) ? -1 : 1;
+    y_step = CUBE_SIZE * tan(rayAngle);
+    y_step *= (ray_directin_data->isRayFacingUp && y_step > 0) ? -1 : 1;
+    y_step *= (ray_directin_data->isRayFacingDown && y_step < 0) ? -1 : 1;
 
     float nextVertTouchWallX = x_intercept;
     float nextVertTouchWallY = y_intercept;
@@ -136,7 +136,7 @@ void initiate_wall_hit_data_structs_values(t_horz_wall_hit_data *horzWallHitData
     horzWallHitData->horzWallHitY = 0;
     horzWallHitData->foundHorizontalHit = false;
 
-    vertWallHitData->foundVertWallHit = false;
     vertWallHitData->vertWallHitX = 0;
     vertWallHitData->vertWallHitY = 0;
+    vertWallHitData->foundVertWallHit = false;
 }
