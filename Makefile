@@ -9,7 +9,8 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/initiate_struct_values.c \
 	  $(SRC_DIR)/player_functions.c \
 	  $(SRC_DIR)/map_walls_functions.c \
-	  $(SRC_DIR)/draw_rays.c
+	  $(SRC_DIR)/draw_rays.c \
+	  $(SRC_DIR)/ray_wall_hit.c
 
 OBJ_DIR = obj
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))

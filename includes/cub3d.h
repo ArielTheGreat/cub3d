@@ -71,6 +71,28 @@ typedef struct s_str_access
     t_game   *game;
 } t_str_access;
 
+typedef struct s_horz_wall_hit_data
+{
+    int foundHorizontalHit;
+    float horzWallHitX;
+    float horzWallHitY;
+} t_horz_wall_hit_data;
+
+typedef struct s_vert_wall_hit_data
+{
+    int foundVertWallHit;
+    float vertWallHitX;
+    float vertWallHitY;
+} t_vert_wall_hit_data;
+
+typedef struct s_ray_directin_data
+{
+    int isRayFacingDown;
+    int isRayFacingUp;
+    int isRayFacingRight;
+    int isRayFacingLeft;
+} t_ray_directin_data;
+
 void initiate_map(t_map *map);
 void initiate_player(t_player *player, t_game *game);
 void initiate_str_access_values(t_str_access *str_access);
@@ -90,5 +112,10 @@ int is_wall(float x,float y, t_player *player);
 /* draw_rays.c */
 void castAllRays(t_player *player, t_rays *rays);
 void renderRays(t_player *player, t_rays *rays);
+
+/* ray_wall_hit.c */
+void findHorzRayWallHit(t_horz_wall_hit_data *horzWallHitData, float rayAngle, t_player *player, t_ray_directin_data  *ray_directin_data);
+void findVertRayWallHit(t_vert_wall_hit_data *vertWallHitData, float rayAngle, t_player *player, t_ray_directin_data  *ray_directin_data);
+void inititate_ray_direction_data(t_ray_directin_data *ray_directin_data, float rayAngle);
 
 #endif
