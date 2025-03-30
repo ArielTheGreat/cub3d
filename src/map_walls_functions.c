@@ -52,15 +52,15 @@ void add_static_pixels(t_str_access *str_access)
     int base_y_mult;
     int i;
 
-    add_y = 1;
-    base_x_mult = CUBE_SIZE;
-    base_y_mult = CUBE_SIZE;
+    add_y = 0;
+    base_x_mult = 0;
+    base_y_mult = 0;
     i = 0;
     while (i <= str_access->map->map_height)
     {
         process_map_row(str_access, i, &base_x_mult, &base_y_mult);
         add_y++;
-        base_x_mult = CUBE_SIZE;
+        base_x_mult = 0;
         base_y_mult = CUBE_SIZE * add_y;
         i++;
     }
@@ -70,8 +70,8 @@ void add_static_pixels(t_str_access *str_access)
 int check_obstacle_blocks(float newPlayerX, float newPlayerY, t_player *player)
 {
     t_map *map;
-    int column_block = (newPlayerX / CUBE_SIZE) - 1;
-    int row_block = (newPlayerY / CUBE_SIZE) - 1;
+    int column_block = (newPlayerX / CUBE_SIZE);
+    int row_block = (newPlayerY / CUBE_SIZE);
 
     map = player->map;
     if (map->grid[row_block][column_block] == '1')
@@ -86,8 +86,8 @@ int is_wall(float x,float y, t_player *player)
     if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT) {
         return 1;
     }
-    int mapGridIndexX = floor(x / CUBE_SIZE) - 1;
-    int mapGridIndexY = floor(y / CUBE_SIZE) - 1;
+    int mapGridIndexX = floor(x / CUBE_SIZE);
+    int mapGridIndexY = floor(y / CUBE_SIZE);
     if (player->map->grid[mapGridIndexY][mapGridIndexX] == '1')
     {
         return (1);
