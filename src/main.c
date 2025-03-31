@@ -3,9 +3,9 @@
 void init_mlx(t_game *game)
 {
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d", true);
+	game->view_layer = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->dynamic_layer = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	game->static_layer = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
-	game->view_layer = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->colorBuffer = (uint32_t *) malloc(sizeof(uint32_t) * SCREEN_WIDTH * SCREEN_HEIGHT);
 }
 
@@ -25,14 +25,14 @@ void	keys_hook(mlx_key_data_t keydata, void *param)
 	else if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		mlx_close_window(player->game->mlx);
 
-		if (keydata.key == MLX_KEY_W && (keydata.action == MLX_RELEASE))
-			player->walkDirection = 0;
-		else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_RELEASE))
-			player->walkDirection = 0;
-		else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_RELEASE))
-			player->turnDirection = 0;
-		else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
-			player->turnDirection = 0;
+	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_RELEASE))
+		player->walkDirection = 0;
+	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_RELEASE))
+		player->walkDirection = 0;
+	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_RELEASE))
+		player->turnDirection = 0;
+	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
+		player->turnDirection = 0;
 }
 
 void clearColorBuffer(t_game *game, uint32_t color)
@@ -64,7 +64,7 @@ void render(void *param)
 		* game->dynamic_layer->height * sizeof(int32_t));
 	clearColorBuffer(game, 0xFF00FF00);
 	//ft_memcpy(game->view_layer->pixels, game->colorBuffer, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
-	ft_memset(game->view_layer->pixels, 255, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(int32_t));
+	ft_memset(game->view_layer->pixels, 220, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(int32_t));
 	movePlayer(player);
 	draw_circle(player, game);
 	castAllRays(player, &rays);
@@ -85,9 +85,9 @@ int main()
     initiate_player(stru_access.player, game);
 	stru_access.player->map = stru_access.map;
     init_mlx(game);
+	mlx_image_to_window(game->mlx, game->view_layer, 0, 0);
 	mlx_image_to_window(game->mlx, game->static_layer, 0, 0);
 	mlx_image_to_window(game->mlx, game->dynamic_layer, 0, 0);
-	mlx_image_to_window(game->mlx, game->view_layer, 0, 0);
     add_static_pixels(&stru_access);
     mlx_loop_hook(game->mlx, render, &stru_access);
     mlx_key_hook(game->mlx, keys_hook, stru_access.player);
