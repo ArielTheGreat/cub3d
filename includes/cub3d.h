@@ -107,7 +107,7 @@ void draw_line(t_player *player, t_game *game, float dest_x, float dest_y);
 void initiate_map(t_map *map);
 void initiate_player(t_player *player, t_game *game);
 void initiate_str_access_values(t_str_access *str_access);
-void set_player_rotationAngle(t_player *player, char letter);
+void set_player_rotation_angle(t_player *player, char letter);
 
 /* player_functions.c */
 void move_player(t_player *player);

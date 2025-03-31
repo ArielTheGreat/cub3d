@@ -51,7 +51,7 @@ void process_map_row(t_str_access *str_access, int i, int *base_x_mult, int *bas
         {
             player->x = *base_x_mult;
             player->y = *base_y_mult;
-            set_player_rotationAngle(player, map->grid[i][x]);
+            set_player_rotation_angle(player, map->grid[i][x]);
         }
         *base_x_mult += CUBE_SIZE;
         x++;
