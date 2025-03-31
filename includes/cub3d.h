@@ -99,10 +99,13 @@ typedef struct s_hit_distance_wall
     float vert;
 } t_hit_distance_wall;
 
+void draw_line(t_player *player, t_game *game, float dest_x, float dest_y);
+
+/* initiate_struct_values.c */
 void initiate_map(t_map *map);
 void initiate_player(t_player *player, t_game *game);
 void initiate_str_access_values(t_str_access *str_access);
-void draw_line(t_player *player, t_game *game, float dest_x, float dest_y);
+void set_player_rotationAngle(t_player *player, char letter);
 
 /* player_functions.c */
 void movePlayer(t_player *player);

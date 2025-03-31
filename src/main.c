@@ -55,7 +55,7 @@ int main()
 {
     t_str_access stru_access;
     t_game *game;
-    
+
 	stru_access.map = NULL;
 	stru_access.game = NULL;
 	stru_access.player = NULL;
