@@ -12,7 +12,7 @@
 
 #include "../includes/cub3d.h"
 
-float normalizeAngle(float angle)
+float normalize_angle(float angle)
 {
     angle = remainder(angle,TWO_PI);
     if (angle < 0)
@@ -27,42 +27,42 @@ int distance_ray2wall(float origin_x, float origin_y, float destination_x, float
     return (sqrt((destination_x - origin_x) * (destination_x - origin_x) + (destination_y - origin_y) * (destination_y - origin_y)));
 }
 
-void castRay(float rayAngle, t_player *player,int counter, t_rays *rays)
+void cast_ray(float rayAngle, t_player *player,int counter, t_rays *rays)
 {
-    t_horz_wall_hit_data horzWallHitData;
-    t_vert_wall_hit_data vertWallHitData;
+    t_horz_wall_hit_data horz_wall_hit_data;
+    t_vert_wall_hit_data vert_wall_hit_data;
     t_ray_directin_data  ray_directin_data;
     t_hit_distance_wall  hit_distance_wall;
 
-    rayAngle = normalizeAngle(rayAngle);
-    initiate_wall_hit_data_structs_values(&horzWallHitData, &vertWallHitData);
+    rayAngle = normalize_angle(rayAngle);
+    initiate_wall_hit_data_structs_values(&horz_wall_hit_data, &vert_wall_hit_data);
     inititate_ray_direction_data(&ray_directin_data, rayAngle);
-    findHorzRayWallHit(&horzWallHitData, rayAngle, player, &ray_directin_data);
-    findVertRayWallHit(&vertWallHitData, rayAngle, player, &ray_directin_data);
-    find_distance(&hit_distance_wall, &horzWallHitData, &vertWallHitData, player);
+    find_horz_ray_wall_hit(&horz_wall_hit_data, rayAngle, player, &ray_directin_data);
+    find_vert_ray_wall_hit(&vert_wall_hit_data, rayAngle, player, &ray_directin_data);
+    find_distance(&hit_distance_wall, &horz_wall_hit_data, &vert_wall_hit_data, player);
     if (hit_distance_wall.vert < hit_distance_wall.horz)
     {
-        set_vert_values_ray(rays, &hit_distance_wall, &vertWallHitData, counter);
+        set_vert_values_ray(rays, &hit_distance_wall, &vert_wall_hit_data, counter);
     }else
     {
-        set_horz_values_ray(rays, &hit_distance_wall, &horzWallHitData, counter);
+        set_horz_values_ray(rays, &hit_distance_wall, &horz_wall_hit_data, counter);
     }
     set_values_ray(rays, rayAngle, &ray_directin_data, counter);
 }
 
-void castAllRays(t_player *player,t_rays *rays)
+void cast_all_rays(t_player *player,t_rays *rays)
 {
     float rayAngle = player->rotationAngle - (FOV_ANGLE / 2);
     int counter = 0;
     while(counter < NUM_RAYS)
     {
-        castRay(rayAngle, player, counter, rays);
+        cast_ray(rayAngle, player, counter, rays);
         rayAngle += FOV_ANGLE / NUM_RAYS;
         counter++;
     }
 }
 
-void renderRays(t_player *player, t_rays *rays)
+void render_rays(t_player *player, t_rays *rays)
 {
     int counter;
     counter = 0;

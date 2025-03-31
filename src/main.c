@@ -84,8 +84,8 @@ void	render(void *param)
 	ft_memset(game->view_layer->pixels, 220, SCREEN_HEIGHT * SCREEN_WIDTH
 		* sizeof(int32_t));
 	move_player(player);
-	castAllRays(player, &rays);
-	renderRays(player, &rays);
+	cast_all_rays(player, &rays);
+	render_rays(player, &rays);
 }
 
 int	main(void)

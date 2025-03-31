@@ -12,7 +12,7 @@
 
 #include "../includes/cub3d.h"
 
-void findHorzRayWallHit(t_horz_wall_hit_data *horzWallHitData, float rayAngle, t_player *player, t_ray_directin_data  *ray_directin_data)
+void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float rayAngle, t_player *player, t_ray_directin_data  *ray_directin_data)
 {
     float x_intercept;
     float y_intercept;
@@ -40,9 +40,9 @@ void findHorzRayWallHit(t_horz_wall_hit_data *horzWallHitData, float rayAngle, t
 
         if (is_wall(xToCheck, yToCheck, player) == 1)
         {
-            horzWallHitData->horzWallHitX = nextHorzTouchWallX;
-            horzWallHitData->horzWallHitY = nextHorzTouchWallY;
-            horzWallHitData->foundHorizontalHit = true;
+            horz_wall_hit_data->horzWallHitX = nextHorzTouchWallX;
+            horz_wall_hit_data->horzWallHitY = nextHorzTouchWallY;
+            horz_wall_hit_data->foundHorizontalHit = true;
             break;
         }else
         {
@@ -52,7 +52,7 @@ void findHorzRayWallHit(t_horz_wall_hit_data *horzWallHitData, float rayAngle, t
     }
 }
 
-void findVertRayWallHit(t_vert_wall_hit_data *vertWallHitData, float rayAngle, t_player *player, t_ray_directin_data  *ray_directin_data)
+void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float rayAngle, t_player *player, t_ray_directin_data  *ray_directin_data)
 {
     float x_intercept;
     float y_intercept;
@@ -80,9 +80,9 @@ void findVertRayWallHit(t_vert_wall_hit_data *vertWallHitData, float rayAngle, t
 
         if (is_wall(xToCheck, yToCheck, player) == 1)
         {
-            vertWallHitData->vertWallHitX = nextVertTouchWallX;
-            vertWallHitData->vertWallHitY = nextVertTouchWallY;
-            vertWallHitData->foundVertWallHit = true;
+            vert_wall_hit_data->vertWallHitX = nextVertTouchWallX;
+            vert_wall_hit_data->vertWallHitY = nextVertTouchWallY;
+            vert_wall_hit_data->foundVertWallHit = true;
             break;
         }else
         {
@@ -100,18 +100,18 @@ void inititate_ray_direction_data(t_ray_directin_data *ray_directin_data, float 
     ray_directin_data->isRayFacingLeft = !ray_directin_data->isRayFacingRight;
 }
 
-void find_distance(t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horzWallHitData, t_vert_wall_hit_data *vertWallHitData, t_player *player)
+void find_distance(t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horz_wall_hit_data, t_vert_wall_hit_data *vert_wall_hit_data, t_player *player)
 {
-    if (horzWallHitData->foundHorizontalHit)
+    if (horz_wall_hit_data->foundHorizontalHit)
     {
-        hit_distance_wall->horz = distance_ray2wall(player->x, player->y, horzWallHitData->horzWallHitX, horzWallHitData->horzWallHitY);
+        hit_distance_wall->horz = distance_ray2wall(player->x, player->y, horz_wall_hit_data->horzWallHitX, horz_wall_hit_data->horzWallHitY);
     }else{
         hit_distance_wall->horz = INT_MAX;
     }
 
-    if (vertWallHitData->foundVertWallHit)
+    if (vert_wall_hit_data->foundVertWallHit)
     {
-        hit_distance_wall->vert = distance_ray2wall(player->x, player->y, vertWallHitData->vertWallHitX, vertWallHitData->vertWallHitY);
+        hit_distance_wall->vert = distance_ray2wall(player->x, player->y, vert_wall_hit_data->vertWallHitX, vert_wall_hit_data->vertWallHitY);
     }else{
         hit_distance_wall->vert = INT_MAX;
     }
@@ -126,29 +126,29 @@ void set_values_ray(t_rays *rays, float rayAngle, t_ray_directin_data  *ray_dire
     (*rays)[counter].isRayFacingRight = ray_directin_data->isRayFacingRight;
 }
 
-void set_vert_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_vert_wall_hit_data *vertWallHitData, int counter)
+void set_vert_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_vert_wall_hit_data *vert_wall_hit_data, int counter)
 {
     (*rays)[counter].distance = hit_distance_wall->vert;
-    (*rays)[counter].wallHitX = vertWallHitData->vertWallHitX;
-    (*rays)[counter].wallHitY = vertWallHitData->vertWallHitY;
+    (*rays)[counter].wallHitX = vert_wall_hit_data->vertWallHitX;
+    (*rays)[counter].wallHitY = vert_wall_hit_data->vertWallHitY;
     (*rays)[counter].wasHitVertical = 1;
 }
 
-void set_horz_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horzWallHitData, int counter)
+void set_horz_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horz_wall_hit_data, int counter)
 {
     (*rays)[counter].distance = hit_distance_wall->horz;
-    (*rays)[counter].wallHitX = horzWallHitData->horzWallHitX;
-    (*rays)[counter].wallHitY = horzWallHitData->horzWallHitY;
+    (*rays)[counter].wallHitX = horz_wall_hit_data->horzWallHitX;
+    (*rays)[counter].wallHitY = horz_wall_hit_data->horzWallHitY;
     (*rays)[counter].wasHitVertical = 0;
 }
 
-void initiate_wall_hit_data_structs_values(t_horz_wall_hit_data *horzWallHitData, t_vert_wall_hit_data *vertWallHitData)
+void initiate_wall_hit_data_structs_values(t_horz_wall_hit_data *horz_wall_hit_data, t_vert_wall_hit_data *vert_wall_hit_data)
 {
-    horzWallHitData->horzWallHitX = 0;
-    horzWallHitData->horzWallHitY = 0;
-    horzWallHitData->foundHorizontalHit = false;
+    horz_wall_hit_data->horzWallHitX = 0;
+    horz_wall_hit_data->horzWallHitY = 0;
+    horz_wall_hit_data->foundHorizontalHit = false;
 
-    vertWallHitData->vertWallHitX = 0;
-    vertWallHitData->vertWallHitY = 0;
-    vertWallHitData->foundVertWallHit = false;
+    vert_wall_hit_data->vertWallHitX = 0;
+    vert_wall_hit_data->vertWallHitY = 0;
+    vert_wall_hit_data->foundVertWallHit = false;
 }
