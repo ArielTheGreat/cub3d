@@ -55,7 +55,7 @@ typedef struct s_player
 
 typedef struct Ray
 {
-    float rayAngle;
+    float ray_angle;
     float wallHitX;
     float wallHitY;
     float distance;
@@ -125,10 +125,10 @@ void render_rays(t_player *player, t_rays *rays);
 int distance_ray2wall(float origin_x, float origin_y, float destination_x, float destination_y);
 
 /* ray_wall_hit.c */
-void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float rayAngle, t_player *player, t_ray_directin_data  *ray_directin_data);
-void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float rayAngle, t_player *player, t_ray_directin_data  *ray_directin_data);
-void inititate_ray_direction_data(t_ray_directin_data *ray_directin_data, float rayAngle);
-void set_values_ray(t_rays *rays, float rayAngle, t_ray_directin_data  *ray_directin_data, int counter);
+void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float ray_angle, t_player *player, t_ray_directin_data  *ray_directin_data);
+void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float ray_angle, t_player *player, t_ray_directin_data  *ray_directin_data);
+void inititate_ray_direction_data(t_ray_directin_data *ray_directin_data, float ray_angle);
+void set_values_ray(t_rays *rays, float ray_angle, t_ray_directin_data  *ray_directin_data, int counter);
 void set_vert_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_vert_wall_hit_data *vert_wall_hit_data, int counter);
 void set_horz_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horz_wall_hit_data, int counter);
 void find_distance(t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horz_wall_hit_data, t_vert_wall_hit_data *vert_wall_hit_data, t_player *player);

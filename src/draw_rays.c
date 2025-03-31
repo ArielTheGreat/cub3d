@@ -27,18 +27,18 @@ int distance_ray2wall(float origin_x, float origin_y, float destination_x, float
     return (sqrt((destination_x - origin_x) * (destination_x - origin_x) + (destination_y - origin_y) * (destination_y - origin_y)));
 }
 
-void cast_ray(float rayAngle, t_player *player,int counter, t_rays *rays)
+void cast_ray(float ray_angle, t_player *player,int counter, t_rays *rays)
 {
     t_horz_wall_hit_data horz_wall_hit_data;
     t_vert_wall_hit_data vert_wall_hit_data;
     t_ray_directin_data  ray_directin_data;
     t_hit_distance_wall  hit_distance_wall;
 
-    rayAngle = normalize_angle(rayAngle);
+    ray_angle = normalize_angle(ray_angle);
     initiate_wall_hit_data_structs_values(&horz_wall_hit_data, &vert_wall_hit_data);
-    inititate_ray_direction_data(&ray_directin_data, rayAngle);
-    find_horz_ray_wall_hit(&horz_wall_hit_data, rayAngle, player, &ray_directin_data);
-    find_vert_ray_wall_hit(&vert_wall_hit_data, rayAngle, player, &ray_directin_data);
+    inititate_ray_direction_data(&ray_directin_data, ray_angle);
+    find_horz_ray_wall_hit(&horz_wall_hit_data, ray_angle, player, &ray_directin_data);
+    find_vert_ray_wall_hit(&vert_wall_hit_data, ray_angle, player, &ray_directin_data);
     find_distance(&hit_distance_wall, &horz_wall_hit_data, &vert_wall_hit_data, player);
     if (hit_distance_wall.vert < hit_distance_wall.horz)
     {
@@ -47,17 +47,17 @@ void cast_ray(float rayAngle, t_player *player,int counter, t_rays *rays)
     {
         set_horz_values_ray(rays, &hit_distance_wall, &horz_wall_hit_data, counter);
     }
-    set_values_ray(rays, rayAngle, &ray_directin_data, counter);
+    set_values_ray(rays, ray_angle, &ray_directin_data, counter);
 }
 
 void cast_all_rays(t_player *player,t_rays *rays)
 {
-    float rayAngle = player->rotationAngle - (FOV_ANGLE / 2);
+    float ray_angle = player->rotationAngle - (FOV_ANGLE / 2);
     int counter = 0;
     while(counter < NUM_RAYS)
     {
-        cast_ray(rayAngle, player, counter, rays);
-        rayAngle += FOV_ANGLE / NUM_RAYS;
+        cast_ray(ray_angle, player, counter, rays);
+        ray_angle += FOV_ANGLE / NUM_RAYS;
         counter++;
     }
 }

@@ -12,7 +12,7 @@
 
 #include "../includes/cub3d.h"
 
-void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float rayAngle, t_player *player, t_ray_directin_data  *ray_directin_data)
+void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float ray_angle, t_player *player, t_ray_directin_data  *ray_directin_data)
 {
     float x_intercept;
     float y_intercept;
@@ -22,12 +22,12 @@ void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float rayA
     y_intercept = floor(player->y / CUBE_SIZE) * CUBE_SIZE;
     y_intercept += ray_directin_data->isRayFacingDown ? CUBE_SIZE : 0;
 
-    x_intercept = player->x + (y_intercept - player->y) / tan(rayAngle);
+    x_intercept = player->x + (y_intercept - player->y) / tan(ray_angle);
 
     y_step = CUBE_SIZE;
     y_step *= ray_directin_data->isRayFacingUp ? -1 : 1;
 
-    x_step = CUBE_SIZE / tan(rayAngle);
+    x_step = CUBE_SIZE / tan(ray_angle);
     x_step *= (ray_directin_data->isRayFacingLeft && x_step > 0) ? -1 : 1;
     x_step *= (ray_directin_data->isRayFacingRight && x_step < 0) ? -1 : 1;
 
@@ -52,7 +52,7 @@ void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float rayA
     }
 }
 
-void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float rayAngle, t_player *player, t_ray_directin_data  *ray_directin_data)
+void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float ray_angle, t_player *player, t_ray_directin_data  *ray_directin_data)
 {
     float x_intercept;
     float y_intercept;
@@ -62,12 +62,12 @@ void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float rayA
     x_intercept = floor(player->x / CUBE_SIZE) * CUBE_SIZE;
     x_intercept += ray_directin_data->isRayFacingRight ? CUBE_SIZE : 0;
 
-    y_intercept = player->y + (x_intercept - player->x) * tan(rayAngle);
+    y_intercept = player->y + (x_intercept - player->x) * tan(ray_angle);
 
     x_step = CUBE_SIZE;
     x_step *= ray_directin_data->isRayFacingLeft ? -1 : 1;
 
-    y_step = CUBE_SIZE * tan(rayAngle);
+    y_step = CUBE_SIZE * tan(ray_angle);
     y_step *= (ray_directin_data->isRayFacingUp && y_step > 0) ? -1 : 1;
     y_step *= (ray_directin_data->isRayFacingDown && y_step < 0) ? -1 : 1;
 
@@ -92,11 +92,11 @@ void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float rayA
     }
 }
 
-void inititate_ray_direction_data(t_ray_directin_data *ray_directin_data, float rayAngle)
+void inititate_ray_direction_data(t_ray_directin_data *ray_directin_data, float ray_angle)
 {
-    ray_directin_data->isRayFacingDown = rayAngle > 0 && rayAngle < PI;
+    ray_directin_data->isRayFacingDown = ray_angle > 0 && ray_angle < PI;
     ray_directin_data->isRayFacingUp = !ray_directin_data->isRayFacingDown;
-    ray_directin_data->isRayFacingRight = rayAngle < (PI / 2) || rayAngle > (PI * 1.5);
+    ray_directin_data->isRayFacingRight = ray_angle < (PI / 2) || ray_angle > (PI * 1.5);
     ray_directin_data->isRayFacingLeft = !ray_directin_data->isRayFacingRight;
 }
 
@@ -117,9 +117,9 @@ void find_distance(t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data 
     }
 }
 
-void set_values_ray(t_rays *rays, float rayAngle, t_ray_directin_data  *ray_directin_data, int counter)
+void set_values_ray(t_rays *rays, float ray_angle, t_ray_directin_data  *ray_directin_data, int counter)
 {
-    (*rays)[counter].rayAngle = rayAngle;
+    (*rays)[counter].ray_angle = ray_angle;
     (*rays)[counter].isRayFacingUp = ray_directin_data->isRayFacingUp;
     (*rays)[counter].isRayFacingDown = ray_directin_data->isRayFacingDown;
     (*rays)[counter].isRayFacingLeft = ray_directin_data->isRayFacingLeft;
