@@ -20,29 +20,29 @@ void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float ray_
     float x_step;
 
     y_intercept = floor(player->y / CUBE_SIZE) * CUBE_SIZE;
-    y_intercept += ray_directin_data->isRayFacingDown ? CUBE_SIZE : 0;
+    y_intercept += ray_directin_data->is_ray_facing_down ? CUBE_SIZE : 0;
 
     x_intercept = player->x + (y_intercept - player->y) / tan(ray_angle);
 
     y_step = CUBE_SIZE;
-    y_step *= ray_directin_data->isRayFacingUp ? -1 : 1;
+    y_step *= ray_directin_data->is_ray_facing_up ? -1 : 1;
 
     x_step = CUBE_SIZE / tan(ray_angle);
-    x_step *= (ray_directin_data->isRayFacingLeft && x_step > 0) ? -1 : 1;
-    x_step *= (ray_directin_data->isRayFacingRight && x_step < 0) ? -1 : 1;
+    x_step *= (ray_directin_data->is_ray_facing_left && x_step > 0) ? -1 : 1;
+    x_step *= (ray_directin_data->is_ray_facing_right && x_step < 0) ? -1 : 1;
 
     float nextHorzTouchWallX = x_intercept;
     float nextHorzTouchWallY = y_intercept;
     while(nextHorzTouchWallX >= 0 && nextHorzTouchWallX <= WINDOW_WIDTH && nextHorzTouchWallY >= 0 && nextHorzTouchWallY <= WINDOW_HEIGHT)
     {
         float x_to_check = nextHorzTouchWallX;
-        float y_to_check = nextHorzTouchWallY + (ray_directin_data->isRayFacingUp ? -1 : 0);
+        float y_to_check = nextHorzTouchWallY + (ray_directin_data->is_ray_facing_up ? -1 : 0);
 
         if (is_wall(x_to_check, y_to_check, player) == 1)
         {
-            horz_wall_hit_data->horzWallHitX = nextHorzTouchWallX;
-            horz_wall_hit_data->horzWallHitY = nextHorzTouchWallY;
-            horz_wall_hit_data->foundHorizontalHit = true;
+            horz_wall_hit_data->horzwall_hit_x = nextHorzTouchWallX;
+            horz_wall_hit_data->horzwall_hit_y = nextHorzTouchWallY;
+            horz_wall_hit_data->found_horz_hit = true;
             break;
         }else
         {
@@ -60,29 +60,29 @@ void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float ray_
     float x_step;
 
     x_intercept = floor(player->x / CUBE_SIZE) * CUBE_SIZE;
-    x_intercept += ray_directin_data->isRayFacingRight ? CUBE_SIZE : 0;
+    x_intercept += ray_directin_data->is_ray_facing_right ? CUBE_SIZE : 0;
 
     y_intercept = player->y + (x_intercept - player->x) * tan(ray_angle);
 
     x_step = CUBE_SIZE;
-    x_step *= ray_directin_data->isRayFacingLeft ? -1 : 1;
+    x_step *= ray_directin_data->is_ray_facing_left ? -1 : 1;
 
     y_step = CUBE_SIZE * tan(ray_angle);
-    y_step *= (ray_directin_data->isRayFacingUp && y_step > 0) ? -1 : 1;
-    y_step *= (ray_directin_data->isRayFacingDown && y_step < 0) ? -1 : 1;
+    y_step *= (ray_directin_data->is_ray_facing_up && y_step > 0) ? -1 : 1;
+    y_step *= (ray_directin_data->is_ray_facing_down && y_step < 0) ? -1 : 1;
 
     float next_vert_touch_wall_x = x_intercept;
     float next_vert_touch_wall_y = y_intercept;
     while(next_vert_touch_wall_x >= 0 && next_vert_touch_wall_x <= WINDOW_WIDTH && next_vert_touch_wall_y >= 0 && next_vert_touch_wall_y <= WINDOW_HEIGHT)
     {
         float y_to_check = next_vert_touch_wall_y;
-        float x_to_check = next_vert_touch_wall_x + (ray_directin_data->isRayFacingLeft ? -1 : 0);
+        float x_to_check = next_vert_touch_wall_x + (ray_directin_data->is_ray_facing_left ? -1 : 0);
 
         if (is_wall(x_to_check, y_to_check, player) == 1)
         {
-            vert_wall_hit_data->vertWallHitX = next_vert_touch_wall_x;
-            vert_wall_hit_data->vertWallHitY = next_vert_touch_wall_y;
-            vert_wall_hit_data->foundVertWallHit = true;
+            vert_wall_hit_data->vertwall_hit_x = next_vert_touch_wall_x;
+            vert_wall_hit_data->vertwall_hit_y = next_vert_touch_wall_y;
+            vert_wall_hit_data->found_vert_hit = true;
             break;
         }else
         {
@@ -94,24 +94,24 @@ void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float ray_
 
 void inititate_ray_direction_data(t_ray_directin_data *ray_directin_data, float ray_angle)
 {
-    ray_directin_data->isRayFacingDown = ray_angle > 0 && ray_angle < PI;
-    ray_directin_data->isRayFacingUp = !ray_directin_data->isRayFacingDown;
-    ray_directin_data->isRayFacingRight = ray_angle < (PI / 2) || ray_angle > (PI * 1.5);
-    ray_directin_data->isRayFacingLeft = !ray_directin_data->isRayFacingRight;
+    ray_directin_data->is_ray_facing_down = ray_angle > 0 && ray_angle < PI;
+    ray_directin_data->is_ray_facing_up = !ray_directin_data->is_ray_facing_down;
+    ray_directin_data->is_ray_facing_right = ray_angle < (PI / 2) || ray_angle > (PI * 1.5);
+    ray_directin_data->is_ray_facing_left = !ray_directin_data->is_ray_facing_right;
 }
 
 void find_distance(t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horz_wall_hit_data, t_vert_wall_hit_data *vert_wall_hit_data, t_player *player)
 {
-    if (horz_wall_hit_data->foundHorizontalHit)
+    if (horz_wall_hit_data->found_horz_hit)
     {
-        hit_distance_wall->horz = distance_ray2wall(player->x, player->y, horz_wall_hit_data->horzWallHitX, horz_wall_hit_data->horzWallHitY);
+        hit_distance_wall->horz = distance_ray2wall(player->x, player->y, horz_wall_hit_data->horzwall_hit_x, horz_wall_hit_data->horzwall_hit_y);
     }else{
         hit_distance_wall->horz = INT_MAX;
     }
 
-    if (vert_wall_hit_data->foundVertWallHit)
+    if (vert_wall_hit_data->found_vert_hit)
     {
-        hit_distance_wall->vert = distance_ray2wall(player->x, player->y, vert_wall_hit_data->vertWallHitX, vert_wall_hit_data->vertWallHitY);
+        hit_distance_wall->vert = distance_ray2wall(player->x, player->y, vert_wall_hit_data->vertwall_hit_x, vert_wall_hit_data->vertwall_hit_y);
     }else{
         hit_distance_wall->vert = INT_MAX;
     }
@@ -119,11 +119,11 @@ void find_distance(t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data 
 
 void initiate_wall_hit_data_structs_values(t_horz_wall_hit_data *horz_wall_hit_data, t_vert_wall_hit_data *vert_wall_hit_data)
 {
-    horz_wall_hit_data->horzWallHitX = 0;
-    horz_wall_hit_data->horzWallHitY = 0;
-    horz_wall_hit_data->foundHorizontalHit = false;
+    horz_wall_hit_data->horzwall_hit_x = 0;
+    horz_wall_hit_data->horzwall_hit_y = 0;
+    horz_wall_hit_data->found_horz_hit = false;
 
-    vert_wall_hit_data->vertWallHitX = 0;
-    vert_wall_hit_data->vertWallHitY = 0;
-    vert_wall_hit_data->foundVertWallHit = false;
+    vert_wall_hit_data->vertwall_hit_x = 0;
+    vert_wall_hit_data->vertwall_hit_y = 0;
+    vert_wall_hit_data->found_vert_hit = false;
 }

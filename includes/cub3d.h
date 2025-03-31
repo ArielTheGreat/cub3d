@@ -30,7 +30,7 @@ typedef struct s_game
     mlx_image_t *static_layer;
 	mlx_image_t *dynamic_layer;
     mlx_image_t *view_layer;
-    uint32_t *colorBuffer;
+    uint32_t *color_buffer;
 } t_game;
 
 typedef struct s_map
@@ -44,11 +44,11 @@ typedef struct s_player
 {
     float x;
     float y;
-    int turnDirection;
-    int walkDirection;
-    float rotationAngle;
-    float walkSpeed;
-    float turnSpeed;
+    int turn_direction;
+    int walk_direction;
+    float rotation_angle;
+    float walk_speed;
+    float turn_speed;
     t_game *game;
     t_map  *map;
 } t_player;
@@ -56,14 +56,14 @@ typedef struct s_player
 typedef struct Ray
 {
     float ray_angle;
-    float wallHitX;
-    float wallHitY;
+    float wall_hit_x;
+    float wall_hit_y;
     float distance;
-    int wasHitVertical;
-    int isRayFacingUp;
-    int isRayFacingDown;
-    int isRayFacingLeft;
-    int isRayFacingRight;
+    int was_hit_vertical;
+    int is_ray_facing_up;
+    int is_ray_facing_down;
+    int is_ray_facing_left;
+    int is_ray_facing_right;
 } t_rays[NUM_RAYS];
 
 typedef struct s_str_access
@@ -75,24 +75,24 @@ typedef struct s_str_access
 
 typedef struct s_horz_wall_hit_data
 {
-    int foundHorizontalHit;
-    float horzWallHitX;
-    float horzWallHitY;
+    int found_horz_hit;
+    float horzwall_hit_x;
+    float horzwall_hit_y;
 } t_horz_wall_hit_data;
 
 typedef struct s_vert_wall_hit_data
 {
-    int foundVertWallHit;
-    float vertWallHitX;
-    float vertWallHitY;
+    int found_vert_hit;
+    float vertwall_hit_x;
+    float vertwall_hit_y;
 } t_vert_wall_hit_data;
 
 typedef struct s_ray_directin_data
 {
-    int isRayFacingDown;
-    int isRayFacingUp;
-    int isRayFacingRight;
-    int isRayFacingLeft;
+    int is_ray_facing_down;
+    int is_ray_facing_up;
+    int is_ray_facing_right;
+    int is_ray_facing_left;
 } t_ray_directin_data;
 
 typedef struct s_hit_distance_wall
@@ -116,7 +116,7 @@ void move_player(t_player *player);
 void add_static_pixels(t_str_access *str_access);
 void process_map_row(t_str_access *str_access, int i, int *base_x_mult, int *base_y_mult);
 void draw_walls(t_game *game, int base_x_mult, int base_y_mult);
-int check_obstacle_blocks(float newPlayerX, float newPlayerY, t_player *player);
+int check_obstacle_blocks(float new_player_x, float new_player_y, t_player *player);
 int is_wall(float x,float y, t_player *player);
 
 /* draw_rays.c */

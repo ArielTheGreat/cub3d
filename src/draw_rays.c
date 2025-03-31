@@ -64,7 +64,7 @@ void	cast_all_rays(t_player *player, t_rays *rays)
 	float	ray_angle;
 	int		counter;
 
-	ray_angle = player->rotationAngle - (FOV_ANGLE / 2);
+	ray_angle = player->rotation_angle - (FOV_ANGLE / 2);
 	counter = 0;
 	while (counter < NUM_RAYS)
 	{
@@ -81,8 +81,8 @@ void	render_rays(t_player *player, t_rays *rays)
 	counter = 0;
 	while (counter < NUM_RAYS)
 	{
-		draw_line(player, player->game, (*rays)[counter].wallHitX,
-			(*rays)[counter].wallHitY);
+		draw_line(player, player->game, (*rays)[counter].wall_hit_x,
+			(*rays)[counter].wall_hit_y);
 		counter++;
 	}
 }

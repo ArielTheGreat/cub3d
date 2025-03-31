@@ -79,11 +79,11 @@ void add_static_pixels(t_str_access *str_access)
     }
 }
 
-int check_obstacle_blocks(float newPlayerX, float newPlayerY, t_player *player)
+int check_obstacle_blocks(float new_player_x, float new_player_y, t_player *player)
 {
     t_map *map;
-    int column_block = (newPlayerX / CUBE_SIZE);
-    int row_block = (newPlayerY / CUBE_SIZE);
+    int column_block = (new_player_x / CUBE_SIZE);
+    int row_block = (new_player_y / CUBE_SIZE);
 
     map = player->map;
     if (map->grid[row_block][column_block] == '1')

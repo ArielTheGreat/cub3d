@@ -18,7 +18,7 @@ void	init_mlx(t_game *game)
 	game->view_layer = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->dynamic_layer = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	game->static_layer = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
-	game->colorBuffer = (uint32_t *)malloc(sizeof(uint32_t) * SCREEN_WIDTH
+	game->color_buffer = (uint32_t *)malloc(sizeof(uint32_t) * SCREEN_WIDTH
 			* SCREEN_HEIGHT);
 }
 
@@ -28,23 +28,23 @@ void	keys_hook(mlx_key_data_t keydata, void *param)
 
 	player = (t_player *)param;
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_PRESS))
-		player->walkDirection = +1;
+		player->walk_direction = +1;
 	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_PRESS))
-		player->walkDirection = -1;
+		player->walk_direction = -1;
 	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_PRESS))
-		player->turnDirection = -1;
+		player->turn_direction = -1;
 	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_PRESS))
-		player->turnDirection = +1;
+		player->turn_direction = +1;
 	else if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		mlx_close_window(player->game->mlx);
 	if (keydata.key == MLX_KEY_W && (keydata.action == MLX_RELEASE))
-		player->walkDirection = 0;
+		player->walk_direction = 0;
 	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_RELEASE))
-		player->walkDirection = 0;
+		player->walk_direction = 0;
 	else if (keydata.key == MLX_KEY_A && (keydata.action == MLX_RELEASE))
-		player->turnDirection = 0;
+		player->turn_direction = 0;
 	else if (keydata.key == MLX_KEY_D && (keydata.action == MLX_RELEASE))
-		player->turnDirection = 0;
+		player->turn_direction = 0;
 }
 
 void	clear_color_buffer(t_game *game, uint32_t color)
@@ -58,7 +58,7 @@ void	clear_color_buffer(t_game *game, uint32_t color)
 	{
 		while (y < SCREEN_HEIGHT)
 		{
-			game->colorBuffer[(SCREEN_WIDTH * y) + x] = color;
+			game->color_buffer[(SCREEN_WIDTH * y) + x] = color;
 			y++;
 		}
 		x++;
@@ -79,7 +79,7 @@ void	render(void *param)
 	ft_memset(game->dynamic_layer->pixels, 0, game->dynamic_layer->width
 		* game->dynamic_layer->height * sizeof(int32_t));
 	clear_color_buffer(game, 0xFF00FF00);
-	// ft_memcpy(game->view_layer->pixels, game->colorBuffer, SCREEN_HEIGHT
+	// ft_memcpy(game->view_layer->pixels, game->color_buffer, SCREEN_HEIGHT
 	//	* SCREEN_WIDTH * sizeof(uint32_t));
 	ft_memset(game->view_layer->pixels, 220, SCREEN_HEIGHT * SCREEN_WIDTH
 		* sizeof(int32_t));

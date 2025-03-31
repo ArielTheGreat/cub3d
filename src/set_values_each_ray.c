@@ -15,24 +15,24 @@
 void set_values_ray(t_rays *rays, float ray_angle, t_ray_directin_data  *ray_directin_data, int counter)
 {
     (*rays)[counter].ray_angle = ray_angle;
-    (*rays)[counter].isRayFacingUp = ray_directin_data->isRayFacingUp;
-    (*rays)[counter].isRayFacingDown = ray_directin_data->isRayFacingDown;
-    (*rays)[counter].isRayFacingLeft = ray_directin_data->isRayFacingLeft;
-    (*rays)[counter].isRayFacingRight = ray_directin_data->isRayFacingRight;
+    (*rays)[counter].is_ray_facing_up = ray_directin_data->is_ray_facing_up;
+    (*rays)[counter].is_ray_facing_down = ray_directin_data->is_ray_facing_down;
+    (*rays)[counter].is_ray_facing_left = ray_directin_data->is_ray_facing_left;
+    (*rays)[counter].is_ray_facing_right = ray_directin_data->is_ray_facing_right;
 }
 
 void set_vert_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_vert_wall_hit_data *vert_wall_hit_data, int counter)
 {
     (*rays)[counter].distance = hit_distance_wall->vert;
-    (*rays)[counter].wallHitX = vert_wall_hit_data->vertWallHitX;
-    (*rays)[counter].wallHitY = vert_wall_hit_data->vertWallHitY;
-    (*rays)[counter].wasHitVertical = 1;
+    (*rays)[counter].wall_hit_x = vert_wall_hit_data->vertwall_hit_x;
+    (*rays)[counter].wall_hit_y = vert_wall_hit_data->vertwall_hit_y;
+    (*rays)[counter].was_hit_vertical = 1;
 }
 
 void set_horz_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horz_wall_hit_data, int counter)
 {
     (*rays)[counter].distance = hit_distance_wall->horz;
-    (*rays)[counter].wallHitX = horz_wall_hit_data->horzWallHitX;
-    (*rays)[counter].wallHitY = horz_wall_hit_data->horzWallHitY;
-    (*rays)[counter].wasHitVertical = 0;
+    (*rays)[counter].wall_hit_x = horz_wall_hit_data->horzwall_hit_x;
+    (*rays)[counter].wall_hit_y = horz_wall_hit_data->horzwall_hit_y;
+    (*rays)[counter].was_hit_vertical = 0;
 }

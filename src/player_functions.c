@@ -14,16 +14,16 @@
 
 void move_player(t_player *player)
 {
-    player->rotationAngle += player->turnDirection * player->turnSpeed;
+    player->rotation_angle += player->turn_direction * player->turn_speed;
 
-    float moveStep = player->walkDirection * player->walkSpeed;
+    float moveStep = player->walk_direction * player->walk_speed;
 
-    float newPlayerX = player->x + cos(player->rotationAngle) * moveStep;
-    float newPlayerY = player->y + sin(player->rotationAngle) * moveStep;
+    float new_player_x = player->x + cos(player->rotation_angle) * moveStep;
+    float new_player_y = player->y + sin(player->rotation_angle) * moveStep;
 
-    if (!check_obstacle_blocks(newPlayerX, newPlayerY, player))
+    if (!check_obstacle_blocks(new_player_x, new_player_y, player))
     {
-        player->x = newPlayerX;
-        player->y = newPlayerY;
+        player->x = new_player_x;
+        player->y = new_player_y;
     }
 }

@@ -29,11 +29,11 @@ void	initiate_player(t_player *player, t_game *game)
 {
 	player->x = 0;
 	player->y = 0;
-	player->turnDirection = 0;
-	player->walkDirection = 0;
-	player->rotationAngle = PI / 2;
-	player->walkSpeed = 2;
-	player->turnSpeed = 2 * (PI / 180);
+	player->turn_direction = 0;
+	player->walk_direction = 0;
+	player->rotation_angle = PI / 2;
+	player->walk_speed = 2;
+	player->turn_speed = 2 * (PI / 180);
 	player->game = game;
 }
 
@@ -48,18 +48,18 @@ void	set_player_rotation_angle(t_player *player, char letter)
 {
 	if (letter == 'N')
 	{
-		player->rotationAngle = PI * 1.5;
+		player->rotation_angle = PI * 1.5;
 	}
 	else if (letter == 'S')
 	{
-		player->rotationAngle = PI / 2;
+		player->rotation_angle = PI / 2;
 	}
 	else if (letter == 'E')
 	{
-		player->rotationAngle = 0;
+		player->rotation_angle = 0;
 	}
 	else if (letter == 'W')
 	{
-		player->rotationAngle = PI;
+		player->rotation_angle = PI;
 	}
 }
