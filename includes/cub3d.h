@@ -134,4 +134,9 @@ void set_horz_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t
 void find_distance(t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horz_wall_hit_data, t_vert_wall_hit_data *vert_wall_hit_data, t_player *player);
 void initiate_wall_hit_data_structs_values(t_horz_wall_hit_data *horz_wall_hit_data, t_vert_wall_hit_data *vert_wall_hit_data);
 
+/* set_values_each_ray.c */
+void set_values_ray(t_rays *rays, float ray_angle, t_ray_directin_data  *ray_directin_data, int counter);
+void set_vert_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_vert_wall_hit_data *vert_wall_hit_data, int counter);
+void set_horz_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horz_wall_hit_data, int counter);
+
 #endif
