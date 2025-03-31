@@ -18,6 +18,10 @@ void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float ray_
     float y_intercept;
     float y_step;
     float x_step;
+    float nextHorzTouchWallX;
+    float nextHorzTouchWallY;
+    float x_to_check;
+    float y_to_check;
 
     y_intercept = floor(player->y / CUBE_SIZE) * CUBE_SIZE;
     y_intercept += ray_directin_data->is_ray_facing_down ? CUBE_SIZE : 0;
@@ -31,12 +35,12 @@ void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float ray_
     x_step *= (ray_directin_data->is_ray_facing_left && x_step > 0) ? -1 : 1;
     x_step *= (ray_directin_data->is_ray_facing_right && x_step < 0) ? -1 : 1;
 
-    float nextHorzTouchWallX = x_intercept;
-    float nextHorzTouchWallY = y_intercept;
+    nextHorzTouchWallX = x_intercept;
+    nextHorzTouchWallY = y_intercept;
     while(nextHorzTouchWallX >= 0 && nextHorzTouchWallX <= WINDOW_WIDTH && nextHorzTouchWallY >= 0 && nextHorzTouchWallY <= WINDOW_HEIGHT)
     {
-        float x_to_check = nextHorzTouchWallX;
-        float y_to_check = nextHorzTouchWallY + (ray_directin_data->is_ray_facing_up ? -1 : 0);
+        x_to_check = nextHorzTouchWallX;
+        y_to_check = nextHorzTouchWallY + (ray_directin_data->is_ray_facing_up ? -1 : 0);
 
         if (is_wall(x_to_check, y_to_check, player) == 1)
         {
@@ -58,6 +62,10 @@ void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float ray_
     float y_intercept;
     float y_step;
     float x_step;
+    float next_vert_touch_wall_x;
+    float next_vert_touch_wall_y;
+    float y_to_check;
+    float x_to_check;
 
     x_intercept = floor(player->x / CUBE_SIZE) * CUBE_SIZE;
     x_intercept += ray_directin_data->is_ray_facing_right ? CUBE_SIZE : 0;
@@ -71,13 +79,12 @@ void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float ray_
     y_step *= (ray_directin_data->is_ray_facing_up && y_step > 0) ? -1 : 1;
     y_step *= (ray_directin_data->is_ray_facing_down && y_step < 0) ? -1 : 1;
 
-    float next_vert_touch_wall_x = x_intercept;
-    float next_vert_touch_wall_y = y_intercept;
+    next_vert_touch_wall_x = x_intercept;
+    next_vert_touch_wall_y = y_intercept;
     while(next_vert_touch_wall_x >= 0 && next_vert_touch_wall_x <= WINDOW_WIDTH && next_vert_touch_wall_y >= 0 && next_vert_touch_wall_y <= WINDOW_HEIGHT)
     {
-        float y_to_check = next_vert_touch_wall_y;
-        float x_to_check = next_vert_touch_wall_x + (ray_directin_data->is_ray_facing_left ? -1 : 0);
-
+        y_to_check = next_vert_touch_wall_y;
+        x_to_check = next_vert_touch_wall_x + (ray_directin_data->is_ray_facing_left ? -1 : 0);
         if (is_wall(x_to_check, y_to_check, player) == 1)
         {
             vert_wall_hit_data->vertwall_hit_x = next_vert_touch_wall_x;
