@@ -110,8 +110,7 @@ void initiate_str_access_values(t_str_access *str_access);
 void set_player_rotationAngle(t_player *player, char letter);
 
 /* player_functions.c */
-void movePlayer(t_player *player);
-void draw_circle(t_player *player, t_game *game);
+void move_player(t_player *player);
 
 /* map_wall_functions.c */
 void add_static_pixels(t_str_access *str_access);

@@ -70,7 +70,6 @@ FILES =		ft_atoi.c \
 			ft_strtok_r.c \
 			ft_strspn.c \
 			ft_strcspn.c \
-			ft_strjoin3.c \
 			ft_strerror.c \
 			ft_err.c \
 			ft_strtrim.c \

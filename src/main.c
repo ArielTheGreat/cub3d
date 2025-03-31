@@ -83,8 +83,7 @@ void	render(void *param)
 	//	* SCREEN_WIDTH * sizeof(uint32_t));
 	ft_memset(game->view_layer->pixels, 220, SCREEN_HEIGHT * SCREEN_WIDTH
 		* sizeof(int32_t));
-	movePlayer(player);
-	draw_circle(player, game);
+	move_player(player);
 	castAllRays(player, &rays);
 	renderRays(player, &rays);
 }

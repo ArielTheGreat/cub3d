@@ -66,7 +66,6 @@ char	*ft_strndup(const char *s, size_t n);
 char	*ft_strtok_r(char *str, const char *delim, char **saveptr);
 size_t	ft_strspn(const char *str, const char *accept);
 size_t	ft_strcspn(const char *str, const char *reject);
-char	*ft_strjoin3(const char *s1, const char *s2, const char *s3);
 char	*ft_strerror(int errnum);
 
 typedef struct s_list
