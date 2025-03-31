@@ -11,8 +11,8 @@
 #include <limits.h>
 #include <math.h>
 
-# define SCREEN_WIDTH		2580
-# define SCREEN_HEIGHT		1960
+# define SCREEN_WIDTH		1300
+# define SCREEN_HEIGHT		800
 # define CUBE_SIZE  16
 # define MOVING_OBJECT_SIZE 1
 # define FOV_ANGLE (60 * (PI / 180))
@@ -29,6 +29,8 @@ typedef struct s_game
     mlx_t *mlx;
     mlx_image_t *static_layer;
 	mlx_image_t *dynamic_layer;
+    mlx_image_t *view_layer;
+    uint32_t *colorBuffer;
 } t_game;
 
 typedef struct s_map

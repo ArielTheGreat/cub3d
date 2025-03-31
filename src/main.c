@@ -3,8 +3,10 @@
 void init_mlx(t_game *game)
 {
 	game->mlx = mlx_init(SCREEN_WIDTH, SCREEN_HEIGHT, "cub3d", true);
-	game->dynamic_layer = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	game->static_layer = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	game->dynamic_layer = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	game->static_layer = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	game->view_layer = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	game->colorBuffer = (uint32_t *) malloc(sizeof(uint32_t) * SCREEN_WIDTH * SCREEN_HEIGHT);
 }
 
 void	keys_hook(mlx_key_data_t keydata, void *param)
@@ -33,6 +35,21 @@ void	keys_hook(mlx_key_data_t keydata, void *param)
 			player->turnDirection = 0;
 }
 
+void clearColorBuffer(t_game *game, uint32_t color)
+{
+	int x = 0;
+	int y = 0;
+	while(x < SCREEN_WIDTH)
+	{	
+		while(y < SCREEN_HEIGHT)
+		{
+			game->colorBuffer[(SCREEN_WIDTH * y) + x] = color;
+			y++;
+		}
+		x++;
+	}
+}
+
 void render(void *param)
 {
     t_str_access *str_access = (t_str_access *)param;
@@ -43,8 +60,11 @@ void render(void *param)
 	str_access = (t_str_access *)param;
     game = str_access->game;
     player = str_access->player;
-	memset(game->dynamic_layer->pixels, 0, game->dynamic_layer->width
+	ft_memset(game->dynamic_layer->pixels, 0, game->dynamic_layer->width
 		* game->dynamic_layer->height * sizeof(int32_t));
+	clearColorBuffer(game, 0xFF00FF00);
+	//ft_memcpy(game->view_layer->pixels, game->colorBuffer, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(uint32_t));
+	ft_memset(game->view_layer->pixels, 255, SCREEN_HEIGHT * SCREEN_WIDTH * sizeof(int32_t));
 	movePlayer(player);
 	draw_circle(player, game);
 	castAllRays(player, &rays);
@@ -65,8 +85,10 @@ int main()
     initiate_player(stru_access.player, game);
 	stru_access.player->map = stru_access.map;
     init_mlx(game);
-    add_static_pixels(&stru_access);
+	mlx_image_to_window(game->mlx, game->static_layer, 0, 0);
 	mlx_image_to_window(game->mlx, game->dynamic_layer, 0, 0);
+	mlx_image_to_window(game->mlx, game->view_layer, 0, 0);
+    add_static_pixels(&stru_access);
     mlx_loop_hook(game->mlx, render, &stru_access);
     mlx_key_hook(game->mlx, keys_hook, stru_access.player);
     mlx_loop(game->mlx);

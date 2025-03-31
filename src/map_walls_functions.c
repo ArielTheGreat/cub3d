@@ -65,7 +65,6 @@ void add_static_pixels(t_str_access *str_access)
         base_y_mult = CUBE_SIZE * add_y;
         i++;
     }
-    mlx_image_to_window(str_access->game->mlx, str_access->game->static_layer, 0, 0);
 }
 
 int check_obstacle_blocks(float newPlayerX, float newPlayerY, t_player *player)
