@@ -12,98 +12,110 @@
 
 #include "../includes/cub3d.h"
 
-void draw_walls(t_game *game, int base_x_mult, int base_y_mult)
+void	draw_walls(t_game *game, int base_x_mult, int base_y_mult)
 {
-    int x;
-    int y;
+	int	x;
+	int	y;
 
-    y = 0;
-    while (y < CUBE_SIZE)
-    {
-        x = 0;
-        while (x < CUBE_SIZE)
-        {
-            mlx_put_pixel(game->static_layer, base_x_mult + x, base_y_mult + y, 0xFFFFFFFF); // White color
-            x++;
-        }
-        y++;
-    }
+	y = 0;
+	while (y < CUBE_SIZE)
+	{
+		x = 0;
+		while (x < CUBE_SIZE)
+		{
+			mlx_put_pixel(game->static_layer, base_x_mult + x, base_y_mult + y,
+				0xFFFFFFFF);
+			x++;
+		}
+		y++;
+	}
 }
 
-void process_map_row(t_str_access *str_access, int i, int *base_x_mult, int *base_y_mult)
+void	process_map_row(t_str_access *str_access, int i, int *base_x_mult,
+		int *base_y_mult)
 {
-    int x;
-    t_player *player;
-    t_map *map;
-    t_game *game;
+	int			x;
+	t_player	*player;
+	t_map		*map;
+	t_game		*game;
 
-    player = str_access->player;
-    map = str_access->map;
-    game = str_access->game;
-    x = 0;
-    while (map->grid[i][x])
-    {
-        if (map->grid[i][x] == '1')
-        {
-            draw_walls(game, *base_x_mult, *base_y_mult);
-        }else if (map->grid[i][x] == 'N' || map->grid[i][x] == 'S' || map->grid[i][x] == 'E'
-            || map->grid[i][x] == 'W')
-        {
-            player->x = *base_x_mult;
-            player->y = *base_y_mult;
-            set_player_rotation_angle(player, map->grid[i][x]);
-        }
-        *base_x_mult += CUBE_SIZE;
-        x++;
-    }
+	player = str_access->player;
+	map = str_access->map;
+	game = str_access->game;
+	x = 0;
+	while (map->grid[i][x])
+	{
+		if (map->grid[i][x] == '1')
+		{
+			draw_walls(game, *base_x_mult, *base_y_mult);
+		}
+		else if (map->grid[i][x] == 'N' || map->grid[i][x] == 'S'
+			|| map->grid[i][x] == 'E' || map->grid[i][x] == 'W')
+		{
+			player->x = *base_x_mult;
+			player->y = *base_y_mult;
+			set_player_rotation_angle(player, map->grid[i][x]);
+		}
+		*base_x_mult += CUBE_SIZE;
+		x++;
+	}
 }
 
-void add_static_pixels(t_str_access *str_access)
+void	add_static_pixels(t_str_access *str_access)
 {
-    int add_y;
-    int base_x_mult;
-    int base_y_mult;
-    int i;
+	int	add_y;
+	int	base_x_mult;
+	int	base_y_mult;
+	int	i;
 
-    add_y = 0;
-    base_x_mult = 0;
-    base_y_mult = 0;
-    i = 0;
-    while (i <= str_access->map->map_height)
-    {
-        process_map_row(str_access, i, &base_x_mult, &base_y_mult);
-        add_y++;
-        base_x_mult = 0;
-        base_y_mult = CUBE_SIZE * add_y;
-        i++;
-    }
+	add_y = 0;
+	base_x_mult = 0;
+	base_y_mult = 0;
+	i = 0;
+	while (i <= str_access->map->map_height)
+	{
+		process_map_row(str_access, i, &base_x_mult, &base_y_mult);
+		add_y++;
+		base_x_mult = 0;
+		base_y_mult = CUBE_SIZE * add_y;
+		i++;
+	}
 }
 
-int check_obstacle_blocks(float new_player_x, float new_player_y, t_player *player)
+int	check_obstacle_blocks(float new_player_x, float new_player_y,
+		t_player *player)
 {
-    t_map *map;
-    int column_block = (new_player_x / CUBE_SIZE);
-    int row_block = (new_player_y / CUBE_SIZE);
+	t_map	*map;
+	int		column_block;
+	int		row_block;
 
-    map = player->map;
-    if (map->grid[row_block][column_block] == '1')
-    {
-        return (1);
-    }
-    return (0);
+	column_block = (new_player_x / CUBE_SIZE);
+	row_block = (new_player_y / CUBE_SIZE);
+	map = player->map;
+	if (map->grid[row_block][column_block] == '1')
+	{
+		return (1);
+	}
+	return (0);
 }
 
-int is_wall(float x,float y, t_player *player)
+int	is_wall(float x, float y, t_player *player)
 {
-    if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT) {
-        return 1;
-    }
-    int mapGridIndexX = floor(x / CUBE_SIZE);
-    int mapGridIndexY = floor(y / CUBE_SIZE);
-    if (player->map->grid[mapGridIndexY][mapGridIndexX] == '1')
-    {
-        return (1);
-    }else{
-        return (0);
-    }
+	int	map_grid_index_x;
+	int	map_grid_index_y;
+
+	if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT)
+	{
+		return (1);
+	}
+	map_grid_index_x = floor(x / CUBE_SIZE);
+	map_grid_index_y = floor(y / CUBE_SIZE);
+	if (player->map->grid[map_grid_index_y][map_grid_index_x] == '1')
+	{
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}
 }
