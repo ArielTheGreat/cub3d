@@ -41,7 +41,7 @@ void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float ray_
     t_ray_wall_hit_vert vert_ray_data;
 
     find_vert_intercepts(&vert_ray_data, ray_angle, player, ray_facing_data);
-    find_horz_steps(&vert_ray_data, ray_angle, ray_facing_data);
+    find_vert_steps(&vert_ray_data, ray_angle, ray_facing_data);
     while(vert_ray_data.next_vert_touch_wall_x >= 0 && vert_ray_data.next_vert_touch_wall_x <= WINDOW_WIDTH && vert_ray_data.next_vert_touch_wall_y >= 0 && vert_ray_data.next_vert_touch_wall_y <= WINDOW_HEIGHT)
     {
         vert_ray_data.y_to_check = vert_ray_data.next_vert_touch_wall_y;
