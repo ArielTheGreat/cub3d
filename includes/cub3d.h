@@ -162,6 +162,6 @@ void set_horz_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t
 
 /* find_intercepts_steps.c */
 void find_horz_intercepts(t_ray_wall_hit_horz *horz_ray_data, float ray_angle, t_player *player, t_ray_facing_data  *ray_facing_data);
-
+void find_horz_steps(t_ray_wall_hit_horz *horz_ray_data, float ray_angle, t_ray_facing_data  *ray_facing_data);
 
 #endif

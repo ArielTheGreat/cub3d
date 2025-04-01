@@ -17,20 +17,11 @@ void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float ray_
     t_ray_wall_hit_horz horz_ray_data;
 
     find_horz_intercepts(&horz_ray_data, ray_angle, player, ray_facing_data);
-    horz_ray_data.y_step = CUBE_SIZE;
-    horz_ray_data.y_step *= ray_facing_data->is_ray_facing_up ? -1 : 1;
-
-    horz_ray_data.x_step = CUBE_SIZE / tan(ray_angle);
-    horz_ray_data.x_step *= (ray_facing_data->is_ray_facing_left && horz_ray_data.x_step > 0) ? -1 : 1;
-    horz_ray_data.x_step *= (ray_facing_data->is_ray_facing_right && horz_ray_data.x_step < 0) ? -1 : 1;
-
-    horz_ray_data.nextHorzTouchWallX = horz_ray_data.x_intercept;
-    horz_ray_data.nextHorzTouchWallY = horz_ray_data.y_intercept;
+    find_horz_steps(&horz_ray_data, ray_angle, ray_facing_data);
     while(horz_ray_data.nextHorzTouchWallX >= 0 && horz_ray_data.nextHorzTouchWallX <= WINDOW_WIDTH && horz_ray_data.nextHorzTouchWallY >= 0 && horz_ray_data.nextHorzTouchWallY <= WINDOW_HEIGHT)
     {
         horz_ray_data.x_to_check = horz_ray_data.nextHorzTouchWallX;
         horz_ray_data.y_to_check = horz_ray_data.nextHorzTouchWallY + (ray_facing_data->is_ray_facing_up ? -1 : 0);
-
         if (is_wall(horz_ray_data.x_to_check, horz_ray_data.y_to_check, player) == 1)
         {
             horz_wall_hit_data->horzwall_hit_x = horz_ray_data.nextHorzTouchWallX;
