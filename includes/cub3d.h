@@ -87,13 +87,13 @@ typedef struct s_vert_wall_hit_data
     float vertwall_hit_y;
 } t_vert_wall_hit_data;
 
-typedef struct s_ray_directin_data
+typedef struct s_ray_facing_data
 {
     int is_ray_facing_down;
     int is_ray_facing_up;
     int is_ray_facing_right;
     int is_ray_facing_left;
-} t_ray_directin_data;
+} t_ray_facing_data;
 
 typedef struct s_hit_distance_wall
 {
@@ -125,14 +125,14 @@ void render_rays(t_player *player, t_rays *rays);
 int distance_ray2wall(float origin_x, float origin_y, float destination_x, float destination_y);
 
 /* ray_wall_hit.c */
-void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float ray_angle, t_player *player, t_ray_directin_data  *ray_directin_data);
-void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float ray_angle, t_player *player, t_ray_directin_data  *ray_directin_data);
-void inititate_ray_direction_data(t_ray_directin_data *ray_directin_data, float ray_angle);
+void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float ray_angle, t_player *player, t_ray_facing_data  *ray_facing_data);
+void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float ray_angle, t_player *player, t_ray_facing_data  *ray_facing_data);
+void inititate_ray_direction_data(t_ray_facing_data *ray_facing_data, float ray_angle);
 void find_distance(t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horz_wall_hit_data, t_vert_wall_hit_data *vert_wall_hit_data, t_player *player);
 void initiate_wall_hit_data_structs_values(t_horz_wall_hit_data *horz_wall_hit_data, t_vert_wall_hit_data *vert_wall_hit_data);
 
 /* set_values_each_ray.c */
-void set_values_ray(t_rays *rays, float ray_angle, t_ray_directin_data  *ray_directin_data, int counter);
+void set_values_ray(t_rays *rays, float ray_angle, t_ray_facing_data  *ray_facing_data, int counter);
 void set_vert_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_vert_wall_hit_data *vert_wall_hit_data, int counter);
 void set_horz_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horz_wall_hit_data, int counter);
 

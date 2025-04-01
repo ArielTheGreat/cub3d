@@ -33,17 +33,17 @@ void	cast_ray(float ray_angle, t_player *player, int counter, t_rays *rays)
 {
 	t_horz_wall_hit_data	horz_wall_hit_data;
 	t_vert_wall_hit_data	vert_wall_hit_data;
-	t_ray_directin_data		ray_directin_data;
+	t_ray_facing_data		ray_facing_data;
 	t_hit_distance_wall		hit_distance_wall;
 
 	ray_angle = normalize_angle(ray_angle);
 	initiate_wall_hit_data_structs_values(&horz_wall_hit_data,
 		&vert_wall_hit_data);
-	inititate_ray_direction_data(&ray_directin_data, ray_angle);
+	inititate_ray_direction_data(&ray_facing_data, ray_angle);
 	find_horz_ray_wall_hit(&horz_wall_hit_data, ray_angle, player,
-		&ray_directin_data);
+		&ray_facing_data);
 	find_vert_ray_wall_hit(&vert_wall_hit_data, ray_angle, player,
-		&ray_directin_data);
+		&ray_facing_data);
 	find_distance(&hit_distance_wall, &horz_wall_hit_data, &vert_wall_hit_data,
 		player);
 	if (hit_distance_wall.vert < hit_distance_wall.horz)
@@ -56,7 +56,7 @@ void	cast_ray(float ray_angle, t_player *player, int counter, t_rays *rays)
 		set_horz_values_ray(rays, &hit_distance_wall, &horz_wall_hit_data,
 			counter);
 	}
-	set_values_ray(rays, ray_angle, &ray_directin_data, counter);
+	set_values_ray(rays, ray_angle, &ray_facing_data, counter);
 }
 
 void	cast_all_rays(t_player *player, t_rays *rays)
