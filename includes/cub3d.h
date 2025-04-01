@@ -76,15 +76,15 @@ typedef struct s_str_access
 typedef struct s_horz_wall_hit_data
 {
     int found_horz_hit;
-    float horzwall_hit_x;
-    float horzwall_hit_y;
+    float horz_hit_x;
+    float horz_hit_y;
 } t_horz_wall_hit_data;
 
 typedef struct s_vert_wall_hit_data
 {
     int found_vert_hit;
-    float vertwall_hit_x;
-    float vertwall_hit_y;
+    float vert_hit_x;
+    float vert_hit_y;
 } t_vert_wall_hit_data;
 
 typedef struct s_ray_facing_data
@@ -167,7 +167,7 @@ void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float ray_
 void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float ray_angle, t_player *player, t_ray_facing_data  *ray_facing_data);
 void inititate_ray_direction_data(t_ray_facing_data *ray_facing_data, float ray_angle);
 void find_distance(t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horz_wall_hit_data, t_vert_wall_hit_data *vert_wall_hit_data, t_player *player);
-void initiate_wall_hit_data_structs_values(t_horz_wall_hit_data *horz_wall_hit_data, t_vert_wall_hit_data *vert_wall_hit_data);
+void init_wall_hit_data_values(t_horz_wall_hit_data *horz_wall_hit_data, t_vert_wall_hit_data *vert_wall_hit_data);
 
 /* set_values_each_ray.c */
 void set_values_ray(t_rays *rays, float ray_angle, t_ray_facing_data  *ray_facing_data, int counter);
@@ -179,5 +179,9 @@ void find_horz_intercepts(t_ray_wall_hit_horz *horz_ray_data, float ray_angle, t
 void find_horz_steps(t_ray_wall_hit_horz *horz_ray_data, float ray_angle, t_ray_facing_data  *ray_facing_data);
 void find_vert_intercepts(t_ray_wall_hit_vert *vert_ray_data, float ray_angle, t_player *player, t_ray_facing_data  *ray_facing_data);
 void find_vert_steps(t_ray_wall_hit_vert *vert_ray_data, float ray_angle, t_ray_facing_data  *ray_facing_data);
+
+/* check_ray_between_limits.c */
+bool check_limits_horz_ray(t_ray_wall_hit_horz	*horz_ray_data);
+bool check_limits_vert_ray(t_ray_wall_hit_vert	*vert_ray_data);
 
 #endif

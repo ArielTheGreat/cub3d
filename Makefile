@@ -12,7 +12,8 @@ SRC = $(SRC_DIR)/main.c \
 	  $(SRC_DIR)/draw_rays.c \
 	  $(SRC_DIR)/ray_wall_hit.c \
 	  $(SRC_DIR)/set_values_each_ray.c \
-	  $(SRC_DIR)/find_intercepts_steps.c
+	  $(SRC_DIR)/find_intercepts_steps.c \
+	  $(SRC_DIR)/check_ray_between_limits.c
 
 OBJ_DIR = obj
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))

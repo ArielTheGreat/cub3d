@@ -27,8 +27,8 @@ void	set_vert_values_ray(t_rays *rays,
 		t_vert_wall_hit_data *vert_wall_hit_data, int counter)
 {
 	(*rays)[counter].distance = hit_distance_wall->vert;
-	(*rays)[counter].wall_hit_x = vert_wall_hit_data->vertwall_hit_x;
-	(*rays)[counter].wall_hit_y = vert_wall_hit_data->vertwall_hit_y;
+	(*rays)[counter].wall_hit_x = vert_wall_hit_data->vert_hit_x;
+	(*rays)[counter].wall_hit_y = vert_wall_hit_data->vert_hit_y;
 	(*rays)[counter].was_hit_vertical = 1;
 }
 
@@ -37,7 +37,7 @@ void	set_horz_values_ray(t_rays *rays,
 		t_horz_wall_hit_data *horz_wall_hit_data, int counter)
 {
 	(*rays)[counter].distance = hit_distance_wall->horz;
-	(*rays)[counter].wall_hit_x = horz_wall_hit_data->horzwall_hit_x;
-	(*rays)[counter].wall_hit_y = horz_wall_hit_data->horzwall_hit_y;
+	(*rays)[counter].wall_hit_x = horz_wall_hit_data->horz_hit_x;
+	(*rays)[counter].wall_hit_y = horz_wall_hit_data->horz_hit_y;
 	(*rays)[counter].was_hit_vertical = 0;
 }
