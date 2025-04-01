@@ -125,6 +125,20 @@ typedef struct s_ray_wall_hit_vert
     float x_to_check;
 } t_ray_wall_hit_vert;
 
+typedef struct s_draw_line_variables
+{
+    int	init_x;
+	int	init_y;
+	int	dest_x;
+	int	dest_y;
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+	int	e2;
+} t_draw_line_variables;
+
 void draw_line(t_player *player, t_game *game, float dest_x, float dest_y);
 
 /* initiate_struct_values.c */

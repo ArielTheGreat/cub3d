@@ -14,51 +14,40 @@
 
 void	draw_line(t_player *player, t_game *game, float dest_x, float dest_y)
 {
-	int	origin_x;
-	int	origin_y;
-	int	dest_x_int;
-	int	dest_y_int;
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	err;
-	int	e2;
+	t_draw_line_variables vars;
 
-	origin_x = (int)player->x;
-	origin_y = (int)player->y;
-	dest_x_int = (int)dest_x;
-	dest_y_int = (int)dest_y;
-	dx = abs(dest_x_int - origin_x);
-	dy = -abs(dest_y_int - origin_y);
-	sx = -1;
-	sy = -1;
-	if (origin_x < dest_x_int)
-		sx = 1;
-	if (origin_y < dest_y_int)
-		sy = 1;
-	err = dx + dy;
+	vars.init_x = (int)player->x;
+	vars.init_y = (int)player->y;
+	vars.dest_x = (int)dest_x;
+	vars.dest_y = (int)dest_y;
+	vars.dx = abs(vars.dest_x - vars.init_x);
+	vars.dy = -abs(vars.dest_y - vars.init_y);
+	vars.sx = -1;
+	vars.sy = -1;
+	if (vars.init_x < vars.dest_x)
+    vars.sx = 1;
+	if (vars.init_y < vars.dest_y)
+    vars.sy = 1;
+	vars.err = vars.dx + vars.dy;
 	while (1)
 	{
-		if (origin_x >= 0 && origin_x < (int)game->dynamic_layer->width
-			&& origin_y >= 0 && origin_y < (int)game->dynamic_layer->height)
+		if (vars.init_x >= 0 && vars.init_x < (int)game->dynamic_layer->width
+			&& vars.init_y >= 0 && vars.init_y < (int)game->dynamic_layer->height)
 		{
-			mlx_put_pixel(game->dynamic_layer, origin_x, origin_y, 0xFF0000FF);
+			mlx_put_pixel(game->dynamic_layer, vars.init_x, vars.init_y, 0xFF0000FF);
 		}
-		if (origin_x == dest_x_int && origin_y == dest_y_int)
-		{
+		if (vars.init_x == vars.dest_x && vars.init_y == vars.dest_y)
 			break ;
-		}
-		e2 = 2 * err;
-		if (e2 >= dy)
+            vars.e2 = 2 * vars.err;
+		if (vars.e2 >= vars.dy)
 		{
-			err += dy;
-			origin_x += sx;
+			vars.err += vars.dy;
+			vars.init_x += vars.sx;
 		}
-		if (e2 <= dx)
+		if (vars.e2 <= vars.dx)
 		{
-			err += dx;
-			origin_y += sy;
+			vars.err += vars.dx;
+			vars.init_y += vars.sy;
 		}
 	}
 }
