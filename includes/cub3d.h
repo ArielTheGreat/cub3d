@@ -101,6 +101,30 @@ typedef struct s_hit_distance_wall
     float vert;
 } t_hit_distance_wall;
 
+typedef struct s_ray_wall_hit_horz
+{
+    float x_intercept;
+    float y_intercept;
+    float y_step;
+    float x_step;
+    float nextHorzTouchWallX;
+    float nextHorzTouchWallY;
+    float x_to_check;
+    float y_to_check;
+} t_ray_wall_hit_horz;
+
+typedef struct s_ray_wall_hit_vert
+{
+    float x_intercept;
+    float y_intercept;
+    float y_step;
+    float x_step;
+    float next_vert_touch_wall_x;
+    float next_vert_touch_wall_y;
+    float y_to_check;
+    float x_to_check;
+} t_ray_wall_hit_vert;
+
 void draw_line(t_player *player, t_game *game, float dest_x, float dest_y);
 
 /* initiate_struct_values.c */
@@ -135,5 +159,9 @@ void initiate_wall_hit_data_structs_values(t_horz_wall_hit_data *horz_wall_hit_d
 void set_values_ray(t_rays *rays, float ray_angle, t_ray_facing_data  *ray_facing_data, int counter);
 void set_vert_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_vert_wall_hit_data *vert_wall_hit_data, int counter);
 void set_horz_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t_horz_wall_hit_data *horz_wall_hit_data, int counter);
+
+/* find_intercepts_steps.c */
+void find_horz_intercepts(t_ray_wall_hit_horz *horz_ray_data, float ray_angle, t_player *player, t_ray_facing_data  *ray_facing_data);
+
 
 #endif

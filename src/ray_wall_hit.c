@@ -14,87 +14,69 @@
 
 void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float ray_angle, t_player *player, t_ray_facing_data  *ray_facing_data)
 {
-    float x_intercept;
-    float y_intercept;
-    float y_step;
-    float x_step;
-    float nextHorzTouchWallX;
-    float nextHorzTouchWallY;
-    float x_to_check;
-    float y_to_check;
+    t_ray_wall_hit_horz horz_ray_data;
 
-    y_intercept = floor(player->y / CUBE_SIZE) * CUBE_SIZE;
-    y_intercept += ray_facing_data->is_ray_facing_down ? CUBE_SIZE : 0;
+    find_horz_intercepts(&horz_ray_data, ray_angle, player, ray_facing_data);
+    horz_ray_data.y_step = CUBE_SIZE;
+    horz_ray_data.y_step *= ray_facing_data->is_ray_facing_up ? -1 : 1;
 
-    x_intercept = player->x + (y_intercept - player->y) / tan(ray_angle);
+    horz_ray_data.x_step = CUBE_SIZE / tan(ray_angle);
+    horz_ray_data.x_step *= (ray_facing_data->is_ray_facing_left && horz_ray_data.x_step > 0) ? -1 : 1;
+    horz_ray_data.x_step *= (ray_facing_data->is_ray_facing_right && horz_ray_data.x_step < 0) ? -1 : 1;
 
-    y_step = CUBE_SIZE;
-    y_step *= ray_facing_data->is_ray_facing_up ? -1 : 1;
-
-    x_step = CUBE_SIZE / tan(ray_angle);
-    x_step *= (ray_facing_data->is_ray_facing_left && x_step > 0) ? -1 : 1;
-    x_step *= (ray_facing_data->is_ray_facing_right && x_step < 0) ? -1 : 1;
-
-    nextHorzTouchWallX = x_intercept;
-    nextHorzTouchWallY = y_intercept;
-    while(nextHorzTouchWallX >= 0 && nextHorzTouchWallX <= WINDOW_WIDTH && nextHorzTouchWallY >= 0 && nextHorzTouchWallY <= WINDOW_HEIGHT)
+    horz_ray_data.nextHorzTouchWallX = horz_ray_data.x_intercept;
+    horz_ray_data.nextHorzTouchWallY = horz_ray_data.y_intercept;
+    while(horz_ray_data.nextHorzTouchWallX >= 0 && horz_ray_data.nextHorzTouchWallX <= WINDOW_WIDTH && horz_ray_data.nextHorzTouchWallY >= 0 && horz_ray_data.nextHorzTouchWallY <= WINDOW_HEIGHT)
     {
-        x_to_check = nextHorzTouchWallX;
-        y_to_check = nextHorzTouchWallY + (ray_facing_data->is_ray_facing_up ? -1 : 0);
+        horz_ray_data.x_to_check = horz_ray_data.nextHorzTouchWallX;
+        horz_ray_data.y_to_check = horz_ray_data.nextHorzTouchWallY + (ray_facing_data->is_ray_facing_up ? -1 : 0);
 
-        if (is_wall(x_to_check, y_to_check, player) == 1)
+        if (is_wall(horz_ray_data.x_to_check, horz_ray_data.y_to_check, player) == 1)
         {
-            horz_wall_hit_data->horzwall_hit_x = nextHorzTouchWallX;
-            horz_wall_hit_data->horzwall_hit_y = nextHorzTouchWallY;
+            horz_wall_hit_data->horzwall_hit_x = horz_ray_data.nextHorzTouchWallX;
+            horz_wall_hit_data->horzwall_hit_y = horz_ray_data.nextHorzTouchWallY;
             horz_wall_hit_data->found_horz_hit = true;
             break;
         }else
         {
-            nextHorzTouchWallX += x_step;
-            nextHorzTouchWallY += y_step;
+            horz_ray_data.nextHorzTouchWallX += horz_ray_data.x_step;
+            horz_ray_data.nextHorzTouchWallY += horz_ray_data.y_step;
         }
     }
 }
 
 void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float ray_angle, t_player *player, t_ray_facing_data  *ray_facing_data)
 {
-    float x_intercept;
-    float y_intercept;
-    float y_step;
-    float x_step;
-    float next_vert_touch_wall_x;
-    float next_vert_touch_wall_y;
-    float y_to_check;
-    float x_to_check;
+    t_ray_wall_hit_vert vert_ray_data;
 
-    x_intercept = floor(player->x / CUBE_SIZE) * CUBE_SIZE;
-    x_intercept += ray_facing_data->is_ray_facing_right ? CUBE_SIZE : 0;
+    vert_ray_data.x_intercept = floor(player->x / CUBE_SIZE) * CUBE_SIZE;
+    vert_ray_data.x_intercept += ray_facing_data->is_ray_facing_right ? CUBE_SIZE : 0;
 
-    y_intercept = player->y + (x_intercept - player->x) * tan(ray_angle);
+    vert_ray_data.y_intercept = player->y + (vert_ray_data.x_intercept - player->x) * tan(ray_angle);
 
-    x_step = CUBE_SIZE;
-    x_step *= ray_facing_data->is_ray_facing_left ? -1 : 1;
+    vert_ray_data.x_step = CUBE_SIZE;
+    vert_ray_data.x_step *= ray_facing_data->is_ray_facing_left ? -1 : 1;
 
-    y_step = CUBE_SIZE * tan(ray_angle);
-    y_step *= (ray_facing_data->is_ray_facing_up && y_step > 0) ? -1 : 1;
-    y_step *= (ray_facing_data->is_ray_facing_down && y_step < 0) ? -1 : 1;
+    vert_ray_data.y_step = CUBE_SIZE * tan(ray_angle);
+    vert_ray_data.y_step *= (ray_facing_data->is_ray_facing_up && vert_ray_data.y_step > 0) ? -1 : 1;
+    vert_ray_data.y_step *= (ray_facing_data->is_ray_facing_down && vert_ray_data.y_step < 0) ? -1 : 1;
 
-    next_vert_touch_wall_x = x_intercept;
-    next_vert_touch_wall_y = y_intercept;
-    while(next_vert_touch_wall_x >= 0 && next_vert_touch_wall_x <= WINDOW_WIDTH && next_vert_touch_wall_y >= 0 && next_vert_touch_wall_y <= WINDOW_HEIGHT)
+    vert_ray_data.next_vert_touch_wall_x = vert_ray_data.x_intercept;
+    vert_ray_data.next_vert_touch_wall_y = vert_ray_data.y_intercept;
+    while(vert_ray_data.next_vert_touch_wall_x >= 0 && vert_ray_data.next_vert_touch_wall_x <= WINDOW_WIDTH && vert_ray_data.next_vert_touch_wall_y >= 0 && vert_ray_data.next_vert_touch_wall_y <= WINDOW_HEIGHT)
     {
-        y_to_check = next_vert_touch_wall_y;
-        x_to_check = next_vert_touch_wall_x + (ray_facing_data->is_ray_facing_left ? -1 : 0);
-        if (is_wall(x_to_check, y_to_check, player) == 1)
+        vert_ray_data.y_to_check = vert_ray_data.next_vert_touch_wall_y;
+        vert_ray_data.x_to_check = vert_ray_data.next_vert_touch_wall_x + (ray_facing_data->is_ray_facing_left ? -1 : 0);
+        if (is_wall(vert_ray_data.x_to_check, vert_ray_data.y_to_check, player) == 1)
         {
-            vert_wall_hit_data->vertwall_hit_x = next_vert_touch_wall_x;
-            vert_wall_hit_data->vertwall_hit_y = next_vert_touch_wall_y;
+            vert_wall_hit_data->vertwall_hit_x = vert_ray_data.next_vert_touch_wall_x;
+            vert_wall_hit_data->vertwall_hit_y = vert_ray_data.next_vert_touch_wall_y;
             vert_wall_hit_data->found_vert_hit = true;
             break;
         }else
         {
-            next_vert_touch_wall_x += x_step;
-            next_vert_touch_wall_y += y_step;
+            vert_ray_data.next_vert_touch_wall_x += vert_ray_data.x_step;
+            vert_ray_data.next_vert_touch_wall_y += vert_ray_data.y_step;
         }
     }
 }
