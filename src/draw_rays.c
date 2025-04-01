@@ -47,15 +47,11 @@ void	cast_ray(float ray_angle, t_player *player, int counter, t_rays *rays)
 	find_distance(&hit_distance_wall, &horz_wall_hit_data, &vert_wall_hit_data,
 		player);
 	if (hit_distance_wall.vert < hit_distance_wall.horz)
-	{
 		set_vert_values_ray(rays, &hit_distance_wall, &vert_wall_hit_data,
 			counter);
-	}
 	else
-	{
 		set_horz_values_ray(rays, &hit_distance_wall, &horz_wall_hit_data,
 			counter);
-	}
 	set_values_ray(rays, ray_angle, &ray_facing_data, counter);
 }
 
