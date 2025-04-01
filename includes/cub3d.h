@@ -107,8 +107,8 @@ typedef struct s_ray_wall_hit_horz
     float y_intercept;
     float y_step;
     float x_step;
-    float nextHorzTouchWallX;
-    float nextHorzTouchWallY;
+    float next_horz_touch_wall_x;
+    float next_horz_touch_wall_y;
     float x_to_check;
     float y_to_check;
 } t_ray_wall_hit_horz;
@@ -163,5 +163,7 @@ void set_horz_values_ray(t_rays *rays, t_hit_distance_wall *hit_distance_wall, t
 /* find_intercepts_steps.c */
 void find_horz_intercepts(t_ray_wall_hit_horz *horz_ray_data, float ray_angle, t_player *player, t_ray_facing_data  *ray_facing_data);
 void find_horz_steps(t_ray_wall_hit_horz *horz_ray_data, float ray_angle, t_ray_facing_data  *ray_facing_data);
+void find_vert_intercepts(t_ray_wall_hit_vert *vert_ray_data, float ray_angle, t_player *player, t_ray_facing_data  *ray_facing_data);
+void find_vert_steps(t_ray_wall_hit_vert *vert_ray_data, float ray_angle, t_ray_facing_data  *ray_facing_data);
 
 #endif

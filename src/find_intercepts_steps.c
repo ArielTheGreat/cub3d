@@ -18,8 +18,8 @@ void find_horz_intercepts(t_ray_wall_hit_horz *horz_ray_data, float ray_angle, t
     horz_ray_data->y_intercept += ray_facing_data->is_ray_facing_down ? CUBE_SIZE : 0;
 
     horz_ray_data->x_intercept = player->x + (horz_ray_data->y_intercept - player->y) / tan(ray_angle);
-    horz_ray_data->nextHorzTouchWallX = horz_ray_data->x_intercept;
-    horz_ray_data->nextHorzTouchWallY = horz_ray_data->y_intercept;
+    horz_ray_data->next_horz_touch_wall_x = horz_ray_data->x_intercept;
+    horz_ray_data->next_horz_touch_wall_y = horz_ray_data->y_intercept;
 }
 
 void find_horz_steps(t_ray_wall_hit_horz *horz_ray_data, float ray_angle, t_ray_facing_data  *ray_facing_data)
@@ -30,4 +30,24 @@ void find_horz_steps(t_ray_wall_hit_horz *horz_ray_data, float ray_angle, t_ray_
     horz_ray_data->x_step = CUBE_SIZE / tan(ray_angle);
     horz_ray_data->x_step *= (ray_facing_data->is_ray_facing_left && horz_ray_data->x_step > 0) ? -1 : 1;
     horz_ray_data->x_step *= (ray_facing_data->is_ray_facing_right && horz_ray_data->x_step < 0) ? -1 : 1;
+}
+
+void find_vert_intercepts(t_ray_wall_hit_vert *vert_ray_data, float ray_angle, t_player *player, t_ray_facing_data  *ray_facing_data)
+{
+    vert_ray_data->x_intercept = floor(player->x / CUBE_SIZE) * CUBE_SIZE;
+    vert_ray_data->x_intercept += ray_facing_data->is_ray_facing_right ? CUBE_SIZE : 0;
+
+    vert_ray_data->y_intercept = player->y + (vert_ray_data->x_intercept - player->x) * tan(ray_angle);
+    vert_ray_data->next_vert_touch_wall_x = vert_ray_data->x_intercept;
+    vert_ray_data->next_vert_touch_wall_y = vert_ray_data->y_intercept;
+}
+
+void find_vert_steps(t_ray_wall_hit_vert *vert_ray_data, float ray_angle, t_ray_facing_data  *ray_facing_data)
+{
+    vert_ray_data->x_step = CUBE_SIZE;
+    vert_ray_data->x_step *= ray_facing_data->is_ray_facing_left ? -1 : 1;
+
+    vert_ray_data->y_step = CUBE_SIZE * tan(ray_angle);
+    vert_ray_data->y_step *= (ray_facing_data->is_ray_facing_up && vert_ray_data->y_step > 0) ? -1 : 1;
+    vert_ray_data->y_step *= (ray_facing_data->is_ray_facing_down && vert_ray_data->y_step < 0) ? -1 : 1;
 }

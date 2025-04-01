@@ -18,20 +18,20 @@ void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float ray_
 
     find_horz_intercepts(&horz_ray_data, ray_angle, player, ray_facing_data);
     find_horz_steps(&horz_ray_data, ray_angle, ray_facing_data);
-    while(horz_ray_data.nextHorzTouchWallX >= 0 && horz_ray_data.nextHorzTouchWallX <= WINDOW_WIDTH && horz_ray_data.nextHorzTouchWallY >= 0 && horz_ray_data.nextHorzTouchWallY <= WINDOW_HEIGHT)
+    while(horz_ray_data.next_horz_touch_wall_x >= 0 && horz_ray_data.next_horz_touch_wall_x <= WINDOW_WIDTH && horz_ray_data.next_horz_touch_wall_y >= 0 && horz_ray_data.next_horz_touch_wall_y <= WINDOW_HEIGHT)
     {
-        horz_ray_data.x_to_check = horz_ray_data.nextHorzTouchWallX;
-        horz_ray_data.y_to_check = horz_ray_data.nextHorzTouchWallY + (ray_facing_data->is_ray_facing_up ? -1 : 0);
+        horz_ray_data.x_to_check = horz_ray_data.next_horz_touch_wall_x;
+        horz_ray_data.y_to_check = horz_ray_data.next_horz_touch_wall_y + (ray_facing_data->is_ray_facing_up ? -1 : 0);
         if (is_wall(horz_ray_data.x_to_check, horz_ray_data.y_to_check, player) == 1)
         {
-            horz_wall_hit_data->horzwall_hit_x = horz_ray_data.nextHorzTouchWallX;
-            horz_wall_hit_data->horzwall_hit_y = horz_ray_data.nextHorzTouchWallY;
+            horz_wall_hit_data->horzwall_hit_x = horz_ray_data.next_horz_touch_wall_x;
+            horz_wall_hit_data->horzwall_hit_y = horz_ray_data.next_horz_touch_wall_y;
             horz_wall_hit_data->found_horz_hit = true;
             break;
         }else
         {
-            horz_ray_data.nextHorzTouchWallX += horz_ray_data.x_step;
-            horz_ray_data.nextHorzTouchWallY += horz_ray_data.y_step;
+            horz_ray_data.next_horz_touch_wall_x += horz_ray_data.x_step;
+            horz_ray_data.next_horz_touch_wall_y += horz_ray_data.y_step;
         }
     }
 }
@@ -40,20 +40,8 @@ void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float ray_
 {
     t_ray_wall_hit_vert vert_ray_data;
 
-    vert_ray_data.x_intercept = floor(player->x / CUBE_SIZE) * CUBE_SIZE;
-    vert_ray_data.x_intercept += ray_facing_data->is_ray_facing_right ? CUBE_SIZE : 0;
-
-    vert_ray_data.y_intercept = player->y + (vert_ray_data.x_intercept - player->x) * tan(ray_angle);
-
-    vert_ray_data.x_step = CUBE_SIZE;
-    vert_ray_data.x_step *= ray_facing_data->is_ray_facing_left ? -1 : 1;
-
-    vert_ray_data.y_step = CUBE_SIZE * tan(ray_angle);
-    vert_ray_data.y_step *= (ray_facing_data->is_ray_facing_up && vert_ray_data.y_step > 0) ? -1 : 1;
-    vert_ray_data.y_step *= (ray_facing_data->is_ray_facing_down && vert_ray_data.y_step < 0) ? -1 : 1;
-
-    vert_ray_data.next_vert_touch_wall_x = vert_ray_data.x_intercept;
-    vert_ray_data.next_vert_touch_wall_y = vert_ray_data.y_intercept;
+    find_vert_intercepts(&vert_ray_data, ray_angle, player, ray_facing_data);
+    find_horz_steps(&vert_ray_data, ray_angle, ray_facing_data);
     while(vert_ray_data.next_vert_touch_wall_x >= 0 && vert_ray_data.next_vert_touch_wall_x <= WINDOW_WIDTH && vert_ray_data.next_vert_touch_wall_y >= 0 && vert_ray_data.next_vert_touch_wall_y <= WINDOW_HEIGHT)
     {
         vert_ray_data.y_to_check = vert_ray_data.next_vert_touch_wall_y;
