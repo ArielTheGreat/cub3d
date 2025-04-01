@@ -106,13 +106,13 @@ void	find_distance(t_hit_distance_wall *hit_distance_wall,
 	}
 }
 
-void	init_wall_hit_data_values(t_horz_wall_hit_data *horz_wall_hit_data,
-		t_vert_wall_hit_data *vert_wall_hit_data)
+void	init_wall_hit_data_values(t_horz_wall_hit_data *horz_hit_data,
+		t_vert_wall_hit_data *vert_hit_data)
 {
-	horz_wall_hit_data->horz_hit_x = 0;
-	horz_wall_hit_data->horz_hit_y = 0;
-	horz_wall_hit_data->found_horz_hit = false;
-	vert_wall_hit_data->vert_hit_x = 0;
-	vert_wall_hit_data->vert_hit_y = 0;
-	vert_wall_hit_data->found_vert_hit = false;
+	horz_hit_data->horz_hit_x = 0;
+	horz_hit_data->horz_hit_y = 0;
+	horz_hit_data->found_horz_hit = false;
+	vert_hit_data->vert_hit_x = 0;
+	vert_hit_data->vert_hit_y = 0;
+	vert_hit_data->found_vert_hit = false;
 }
