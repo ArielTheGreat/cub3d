@@ -21,7 +21,8 @@ void find_horz_ray_wall_hit(t_horz_wall_hit_data *horz_wall_hit_data, float ray_
     while(horz_ray_data.next_horz_touch_wall_x >= 0 && horz_ray_data.next_horz_touch_wall_x <= WINDOW_WIDTH && horz_ray_data.next_horz_touch_wall_y >= 0 && horz_ray_data.next_horz_touch_wall_y <= WINDOW_HEIGHT)
     {
         horz_ray_data.x_to_check = horz_ray_data.next_horz_touch_wall_x;
-        horz_ray_data.y_to_check = horz_ray_data.next_horz_touch_wall_y + (ray_facing_data->is_ray_facing_up ? -1 : 0);
+        if (ray_facing_data->is_ray_facing_up)
+            horz_ray_data.y_to_check = horz_ray_data.next_horz_touch_wall_y - 1;
         if (is_wall(horz_ray_data.x_to_check, horz_ray_data.y_to_check, player) == 1)
         {
             horz_wall_hit_data->horzwall_hit_x = horz_ray_data.next_horz_touch_wall_x;
@@ -45,7 +46,8 @@ void find_vert_ray_wall_hit(t_vert_wall_hit_data *vert_wall_hit_data, float ray_
     while(vert_ray_data.next_vert_touch_wall_x >= 0 && vert_ray_data.next_vert_touch_wall_x <= WINDOW_WIDTH && vert_ray_data.next_vert_touch_wall_y >= 0 && vert_ray_data.next_vert_touch_wall_y <= WINDOW_HEIGHT)
     {
         vert_ray_data.y_to_check = vert_ray_data.next_vert_touch_wall_y;
-        vert_ray_data.x_to_check = vert_ray_data.next_vert_touch_wall_x + (ray_facing_data->is_ray_facing_left ? -1 : 0);
+        if (ray_facing_data->is_ray_facing_left)
+            vert_ray_data.x_to_check = vert_ray_data.next_vert_touch_wall_x - 1;
         if (is_wall(vert_ray_data.x_to_check, vert_ray_data.y_to_check, player) == 1)
         {
             vert_wall_hit_data->vertwall_hit_x = vert_ray_data.next_vert_touch_wall_x;
