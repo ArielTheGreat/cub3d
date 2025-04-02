@@ -20,6 +20,12 @@ void	init_mlx(t_game *game)
 	game->static_layer = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	game->color_buffer = (uint32_t *)malloc(sizeof(uint32_t) * SCREEN_WIDTH
 			* SCREEN_HEIGHT);
+	game->floor->red = 200;
+	game->floor->blue = 100;
+	game->floor->green = 0;
+	game->ceiling->red = 225;
+	game->ceiling->blue = 30;
+	game->ceiling->green = 0;
 }
 
 void	keys_hook(mlx_key_data_t keydata, void *param)

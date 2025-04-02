@@ -42,6 +42,8 @@ void	initiate_str_access_values(t_str_access *str_access)
 	str_access->game = malloc(sizeof(t_game));
 	str_access->map = malloc(sizeof(t_map));
 	str_access->player = malloc(sizeof(t_player));
+	str_access->game->ceiling = malloc(sizeof(t_color));
+	str_access->game->floor = malloc(sizeof(t_color));
 }
 
 void	set_player_rotation_angle(t_player *player, char letter)
