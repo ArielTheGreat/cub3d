@@ -36,9 +36,19 @@
 # define WINDOW_WIDTH (MAP_NUM_COLS * CUBE_SIZE)
 # define WINDOW_HEIGHT (MAP_NUM_ROWS * CUBE_SIZE)
 
+typedef struct s_color
+{
+	int red;
+	int green;
+	int blue;
+}				t_color;
+
 typedef struct s_game
 {
 	mlx_t		*mlx;
+
+	t_color		*floor;
+	t_color		*ceiling;
 	mlx_image_t	*static_layer;
 	mlx_image_t	*dynamic_layer;
 	mlx_image_t	*view_layer;
